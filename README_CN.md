@@ -216,9 +216,11 @@ class Test extends Model
    模型是依赖 DB 构造器实现的, 所以模型可以使用 DB 的所有方法 (除了表子查询) :
 
 ```php
-
+  // 静态调用
   $rst = Test::where(['id' => '2'])->get();
-
+  // 实例调用, 你可以使用依赖注入代替直接 new 一个对象
+  $rst = (new Test)->where(['id' => '2'])->get();
+  
   ......
 
 ```

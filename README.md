@@ -216,8 +216,10 @@ class Test extends Model
    Model depend DB, so, the model method is the same as the DB method (except sub query from table) :
 
 ```php
-
+  // callstatic
   $rst = Test::where(['id' => '2'])->get();
+  // call instance, you can use DI instead of [new instance]
+  $rst = (new Test)->where(['id' => '2'])->get();
 
   ......
 
