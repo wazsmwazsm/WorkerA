@@ -21,16 +21,23 @@
 ### 环境需求
 
   PHP 5.4 或更高
+
   POSIX 兼容 (Linux, OSX, BSD)
+
   POSIX PHP 扩展
+
   PCNTL PHP 扩展
+
   PDO PHP 扩展
+
   PDO_MYSQL PHP 扩展
 
   更好的并发 :
+
       EVENT 或 LIBEVENT PHP 扩展
 
   使用 Https :
+
       OPENSSL PHP 扩展
 
 ### 安装
@@ -220,7 +227,7 @@ class Test extends Model
   $rst = Test::where(['id' => '2'])->get();
   // 实例调用, 你可以使用依赖注入代替直接 new 一个对象
   $rst = (new Test)->where(['id' => '2'])->get();
-  
+
   ......
 
 ```

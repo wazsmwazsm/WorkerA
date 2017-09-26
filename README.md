@@ -20,16 +20,23 @@
 ## Requires
 
   PHP 5.4 or Higher
+
   A POSIX compatible operating system (Linux, OSX, BSD)
+
   POSIX extensions for PHP
+
   PCNTL extensions for PHP
+
   PDO extensions for PHP
+
   PDO_MYSQL extensions for PHP
 
   For better concurrency :
+
       EVENT or LIBEVENT extensions for PHP
 
   For Https :
+
       OPENSSL extensions for PHP
 
 ## How to use?
