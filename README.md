@@ -39,17 +39,63 @@
   composer create-project wazsmwazsm/workera your-project-name --prefer-dist
 
 ### use
+
+#### directory structure
   - config/ : configuration file
   - app/Controller/ : your controller file
   - app/Models/ : your model file
   - routes/ : your route file
+  - WorkerStart.php : startup file
 
 #### run http mode
   sudo php WorkerStart.php start -d
 
 #### run https mode
-  modify HttpsStart.php, replace local_cert\local_pk to your own certificate
+  modify HttpsStart.php, replace local_cert \ local_pk to your own certificate
   sudo php HttpsStart.php start -d
+
+#### create route, just like laravel
+```php
+<?php
+// must require
+use Framework\Http\Route;
+
+// normol
+Route::get('/a/b', function() {
+    echo 'a';
+});
+
+Route::post('/a/b', function() {
+    echo 'a';
+});
+
+......
+
+// controller@method
+Route::get('/', "App\Controller\TestController@test");
+
+// group, support path prefix and namespace prefix
+Route::group(['prefix' => '/pre', 'namespace' => 'App\Controller'], function() {
+    Route::get('control/', 'TestController@test');
+    Route::post('call1/', function() {
+        return 'hello1';
+    });
+    Route::get('call2/', function() {
+        return 'hello2';
+    });
+});
+
+```
+
+how to load a new route you created ?
+
+just open bootstrap/boot.php append  
+```php
+<?php
+  require_once __DIR__ . '/../routes/newroute.php';
+
+```
+
 
 ## Dependents
   [workerman](http://www.workerman.net/ "workerman")
