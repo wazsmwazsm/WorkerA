@@ -6,7 +6,7 @@
 
 ## About
 
-  a http framework for workerman
+  a http framework for [workerman](http://www.workerman.net/ "workerman")
 
   - memory-resident
   - multiprocess, Highly concurrent
@@ -91,11 +91,139 @@ how to load a new route you created ?
 
 just open bootstrap/boot.php append  
 ```php
-<?php
+
   require_once __DIR__ . '/../routes/newroute.php';
 
 ```
 
+#### how to dependency injection ?
+example:
+  make a model app/Models/Test.php
+```php
+<?php
+
+namespace App\Models;
+
+use App\Models\Model;
+
+class Test extends Model
+{
+    public function getData()
+    {
+        return '<h1>Hello, welcome to WorkerA</h1>';
+    }
+}
+
+```
+  in your controller app/Controller/TestController.php
+```php
+<?php
+
+namespace App\Controller;
+use App\Controller\Controller;
+use WorkerF\Http\Requests;
+use App\Models\Test;
+
+class TestController extends Controller
+{
+    // IOC Container will search dependen automatically, and inject
+    public function test(Test $test, Requests $request)
+    {
+        $rst = $test->getData();
+
+        return $rst;
+    }
+}
+
+```
+it works !
+
+#### database query
+
+1 - use DB , just like laravel
+```php
+// Native pdo method, query\exec\prepare...
+DB::connection('con1')->query('select * test_table limit 0, 30');
+
+// query construct
+$rst = DB::connection('con1')->table('test_table')
+     ->where('id', '<', 10)
+     ->get();
+// join
+$rst = DB::connection('con1')->table('test_table1')
+     ->leftJoin('test_table2', 'test_table1.some_id', 'test_table2.some_id')
+     ->select('test_table2.some_id')
+     ->where('test_table2.some_id', '<', 10)
+     ->get();
+
+// Complex condition
+$rst = DB::connection('con1')->table('test_table')
+     ->where('id', '<', 10)
+     ->orWhereBrackets(function($query) {
+        $query->where('id', '1')
+              ->orWhere('id', '3');
+     })
+     ->orderBy('id', 'DESC')
+     ->get();
+
+// sub query
+$rst = DB::connection('con1')->table('test_table1')
+     ->whereInSub('id', function($query) {
+          $query->table('test_table2')
+                ->select('id')->where('id', '<', '10');
+     })
+     ->orderBy('id', 'DESC')
+     ->get();
+
+// group by
+$rst = DB::connection('con1')->table('test_table')
+     ->groupBy('score')
+     ->having('count(score)', '>', '60')
+     ->get();
+
+// sub query from table \ paginate
+$rst = DB::connection('con1')->select('id','name','score')->fromSub(function($query) {
+        $query->table('test_table')->where('id', '<', '100');
+     })->where('id', '!=', 9)
+     ->orderBy('id', 'ASC')
+     ->paginate(10, 2);
+
+......
+
+```
+more function look [ConnectorInterface](https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/DB/Drivers/ConnectorInterface.php "ConnectorInterface")
+
+2 - use Model , just like laravel
+
+  make a model app/Models/Test.php
+```php
+<?php
+
+namespace App\Models;
+
+use App\Models\Model;
+
+class Test extends Model
+{   
+    // set db connection (in config/database.php)
+    protected $connection = 'con1';
+    // set db table
+    protected $table = 'test_table';
+}
+
+```  
+
+   Model depend DB, so, the model method is the same as the DB method (except sub query from table) :
+
+```php
+
+  $rst = Test::where(['id' => '2'])->get();
+
+  ......
+
+```
+
+more function look [ConnectorInterface](https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/DB/Drivers/ConnectorInterface.php "ConnectorInterface")
 
 ## Dependents
   [workerman](http://www.workerman.net/ "workerman")
