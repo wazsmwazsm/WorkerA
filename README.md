@@ -1,6 +1,6 @@
 # WorkerA
 
-[中文文档](https://github.com/wazsmwazsm/WorkerA/README_CN.md  "中文文档")
+[中文文档](https://github.com/wazsmwazsm/WorkerA/blob/master/README_CN.md  "中文文档")
 
 ## About
 
