@@ -18,10 +18,6 @@
 
 ## 怎么用?
 
-### 安装
-
-  composer create-project wazsmwazsm/workera your-project-name --prefer-dist
-
 ### 环境需求
 
   PHP 5.4 或更高
@@ -36,6 +32,10 @@
 
   使用 Https :
       OPENSSL PHP 扩展
+      
+### 安装
+
+  composer create-project wazsmwazsm/workera your-project-name --prefer-dist
 
 ### 使用
   - config/ : 存放配置文件

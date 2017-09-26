@@ -17,13 +17,7 @@
 
   Not allround but brief, Extensible, efficient
 
-## How to use?
-
-### install
-
-  composer create-project wazsmwazsm/workera your-project-name --prefer-dist
-
-### Requires
+## Requires
 
   PHP 5.4 or Higher
   A POSIX compatible operating system (Linux, OSX, BSD)
@@ -37,6 +31,12 @@
 
   For Https :
       OPENSSL extensions for PHP
+
+## How to use?
+
+### install
+
+  composer create-project wazsmwazsm/workera your-project-name --prefer-dist
 
 ### use
   - config/ : configuration file
