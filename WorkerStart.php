@@ -13,8 +13,8 @@ $http_worker->count = 4;
 $http_worker->user = 'www-data';
 
 $http_worker->onWorkerStart = function($http_worker) {
-    // init db connection
-    App::dbInit();
+    // init app
+    App::init();
 };
 
 $http_worker->onMessage = function($con, $data) {
