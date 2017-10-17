@@ -9,7 +9,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $configs = preg_grep('/.*\.php$/', scandir(__DIR__ . '/../config'));
 
 foreach ($configs as $config) {
-    Config::set(basename($config, '.php'), (require_once __DIR__ . '/../config/'. $config));
+    Config::load(basename($config, '.php'), (require_once __DIR__ . '/../config/'. $config));
 }
 
 // set timezone
