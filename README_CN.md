@@ -311,6 +311,7 @@ $http_worker->onWorkerStart = function($http_worker) {
 
 ## 依赖
   [workerman](http://www.workerman.net/ "workerman")
+  
   [predis](https://github.com/nrk/predis "predis")
 
 ## License
