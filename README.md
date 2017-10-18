@@ -14,6 +14,7 @@
   - use dependency injection
   - brief routing
   - support mysql driver, timeout auto reconnect
+  - support redis driver, based on predis
 
   Not allround but brief, Extensible, efficient
 
@@ -147,6 +148,8 @@ it works !
 
 #### database query
 
+config file : config/database.php
+
 1 - use DB , just like laravel
 ```php
 // Native pdo method, query\exec\prepare...
@@ -232,10 +235,81 @@ class Test extends Model
 
 ```
 
-more function look [ConnectorInterface](https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/DB/Drivers/ConnectorInterface.php "ConnectorInterface")
+more method look [ConnectorInterface](https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/DB/Drivers/ConnectorInterface.php "ConnectorInterface")
+
+#### use redis
+
+  WorkerF\\DB\\Redis based on Predis extension, with laravel style. you can use Redis::method to call Predis method
+
+1 - config config/database.php redis
+```php    
+'redis' => [
+  'cluster' => FALSE,   // enable cluster?
+  'options' => NULL,    // predis client options
+  'rd_con' => [
+      'default' => [
+          'host'     => '127.0.0.1',
+          'password' => NULL,
+          'port'     => 6379,
+          'database' => 0,
+          // 'read_write_timeout' => 0,   // if use pub/sub function, uncomment this
+      ],
+  ]
+]
+```
+2 - basic use
+```php
+<?php
+namespace App\Controller;
+use App\Controller\Controller;
+use WorkerF\Http\Requests;
+use App\Models\Test;
+use Framework\DB\Redis;
+
+class TestController extends Controller
+{
+    // IOC Container will search dependen automatically, and inject
+    public function test(Test $test, Requests $request)
+    {
+        $value = Redis::get('rst');
+        if( ! $value) {
+             $rst = $test->getData();
+             Redis::set('rst', json_encode($rst));
+        } else {
+             $rst = json_decode($value);
+        }
+        return $rst;
+    }
+}
+```
+
+3 - pipeline (predis native method)
+```php
+Redis::pipeline(function ($pipe) {
+    for ($i = 0; $i < 1000; $i++) {
+        $pipe->set("key:$i", $i);
+    }
+});
+```
+
+4 - publish / subscribe
+
+tips: set config/database.php 'read_write_timeout' => 0 can solve predis 60s timeout issue
+you can use it in onWorkerStart callback, subscribe will blocking the progress
+```php
+$http_worker->onWorkerStart = function($http_worker) {
+    // subscribe
+    Redis::subscribe('test-channel', function($msg) {
+        echo $msg;
+    });
+};
+```
+
+more method predis [more method](https://github.com/nrk/predis "more method")
 
 ## Dependents
   [workerman](http://www.workerman.net/ "workerman")
+  [predis](https://github.com/nrk/predis "predis")
 
 ## License
 

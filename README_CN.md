@@ -12,6 +12,7 @@
   - 使用依赖注入
   - 简洁的路由
   - 提供 mysql 驱动, 支持断线自动重连
+  - 提供 redis 驱动, 基于 predis
 
   WorkerA 不是一个全面的、多功能的框架, 它很小, 只有一些最基础的功能。
   但是它高效、简介。通过 PSR-4 自动加载机制和自动依赖注入, 你可以尽可能的对其进行扩展。
@@ -147,6 +148,8 @@ class TestController extends Controller
 
 #### 数据库查询
 
+配置文件 : config/database.php
+
 1 - 使用 DB 构造器, 就像 laravel 一样l
 ```php
 // 原生的 PDO 方法, query\exec\prepare...
@@ -213,9 +216,9 @@ use App\Models\Model;
 
 class Test extends Model
 {   
-    // set db connection (in config/database.php)
+    // 设置数据库连接 (config/database.php)
     protected $connection = 'con1';
-    // set db table
+    // 设置表
     protected $table = 'test_table';
 }
 
@@ -235,8 +238,80 @@ class Test extends Model
 
 更多方法请看 [ConnectorInterface](https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/DB/Drivers/ConnectorInterface.php "ConnectorInterface")
 
+#### 使用 redis
+
+  WorkerF\\DB\\Redis 基于 predis 扩展, 按照 laravel 的风格编写, 你可以适用 Redis::method 来调用 Predis 的原生方法
+
+1 - 配置 config/database.php 的 redis 数组
+```php    
+'redis' => [
+  'cluster' => FALSE,   // 开启 cluster?
+  'options' => NULL,    // predis 客户端选项
+  'rd_con' => [
+      'default' => [
+          'host'     => '127.0.0.1',
+          'password' => NULL,
+          'port'     => 6379,
+          'database' => 0,
+          // 'read_write_timeout' => 0,   // 如果使用 redis 的发布、订阅，取消这行注释
+      ],
+  ]
+]
+```
+2 - 基本使用
+```php
+<?php
+namespace App\Controller;
+use App\Controller\Controller;
+use WorkerF\Http\Requests;
+use App\Models\Test;
+use WorkerF\DB\Redis;
+
+class TestController extends Controller
+{
+    public function test(Test $test, Requests $request)
+    {
+        // 从 redis 读取 key
+        $value = Redis::get('rst');
+        if( ! $value) {
+             $rst = $test->getData();
+             // 设置 key
+             Redis::set('rst', json_encode($rst));
+        } else {
+             $rst = json_decode($value);
+        }
+        return $rst;
+    }
+}
+```
+
+3 - pipeline (predis 原生方法)
+```php
+Redis::pipeline(function ($pipe) {
+    for ($i = 0; $i < 1000; $i++) {
+        $pipe->set("key:$i", $i);
+    }
+});
+```
+
+4 - 发布 、订阅
+
+提醒: 设置 config/database.php 'read_write_timeout' => 0 可以解决 predis 60s 超时的问题
+你可以在 onWorkerStart 回掉函数中使用发布、订阅功能, subscribe 方法会阻塞当前进程
+```php
+$http_worker->onWorkerStart = function($http_worker) {
+    // 订阅频道
+    Redis::subscribe('test-channel', function($msg) {
+        echo $msg;
+    });
+};
+```
+
+更多方法查看 predis [更多方法](https://github.com/nrk/predis "更多方法")
+
 ## 依赖
   [workerman](http://www.workerman.net/ "workerman")
+  [predis](https://github.com/nrk/predis "predis")
 
 ## License
 
