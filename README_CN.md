@@ -11,7 +11,7 @@
   - 单例的数据库连接
   - 使用依赖注入
   - 简洁的路由
-  - 提供 mysql 驱动, 支持断线自动重连
+  - 提供 mysql postgresql sqlite 驱动, 支持断线自动重连
   - 提供 redis 驱动, 基于 predis
 
   WorkerA 不是一个全面的、多功能的框架, 它很小, 只有一些最基础的功能。
@@ -311,7 +311,7 @@ $http_worker->onWorkerStart = function($http_worker) {
 
 ## 依赖
   [workerman](http://www.workerman.net/ "workerman")
-  
+
   [predis](https://github.com/nrk/predis "predis")
 
 ## License
