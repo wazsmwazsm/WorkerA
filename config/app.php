@@ -14,5 +14,6 @@ return [
             'text/html',
         ],
     ],
-
+    
+    'base_url' => '',
 ];
