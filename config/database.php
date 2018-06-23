@@ -1,6 +1,22 @@
 <?php
-
+/*
+|--------------------------------------------------------------------------
+| Database Config
+|--------------------------------------------------------------------------
+*/
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Database Connections
+    |--------------------------------------------------------------------------
+    |
+    | Here are database connections setup for your application.
+    |
+    | All database work in WokerA is done through the PHP PDO facilities
+    | so make sure you have the driver for your particular database of
+    | choice installed on your machine before you begin development.
+    |
+    */
     'db_con' => [
         'con1' => [
           'driver'   => 'mysql',
@@ -13,6 +29,17 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Redis Databases
+    |--------------------------------------------------------------------------
+    |
+    | Here is Redis config.
+    |
+    | The redis in WorkerA is based on predis
+    | see more: https://github.com/nrk/predis
+    |
+    */
     'redis' => [
       'cluster' => FALSE,
       'options' => NULL,
