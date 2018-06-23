@@ -16,4 +16,4 @@ foreach ($configs as $config) {
 date_default_timezone_set(Config::get('app.timezone'));
 
 // routers
-require_once __DIR__ . '/../routes/test.php';
+require_once __DIR__ . '/../routes/app.php';
