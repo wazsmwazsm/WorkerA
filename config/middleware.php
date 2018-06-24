@@ -27,6 +27,6 @@ return [
      |
      */
     'route' => [
-
+        // 'sample' => 'App\Middleware\SampleMiddleware', 
     ],
 ];
