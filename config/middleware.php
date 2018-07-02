@@ -14,7 +14,7 @@ return [
      |
      */
     'global' => [
-        'App\Middleware\AppMiddleware',
+        // 'App\Middleware\AppMiddleware',
     ],
 
     /*
