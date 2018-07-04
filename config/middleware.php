@@ -14,7 +14,7 @@ return [
      |
      */
     'global' => [
-        // 'App\Middleware\AppMiddleware',
+        // App\Middleware\AppMiddleware::class,
     ],
 
     /*
@@ -27,6 +27,6 @@ return [
      |
      */
     'route' => [
-        // 'sample' => 'App\Middleware\SampleMiddleware', 
+        // 'sample' => App\Middleware\SampleMiddleware::class, 
     ],
 ];

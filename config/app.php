@@ -34,13 +34,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | Set compress options you can change the HTTP Response Header 'Content-Encoding'.
+    |
     | encoding: encoding type of Content-Encoding
     | level: encoding level, from 1 to 9
     | content_type: content type you want to compress
     |
     */
     'compress' => [
-        'encoding'     => 'gzip',
+        'encoding'     => 'gzip', // If you don't want to compress, set it to ''
         'level'        => '5',
         'content_type' => [
             'application/json',
