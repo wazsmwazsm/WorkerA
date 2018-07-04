@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3488e29c272d7f9149fa148bcddb13d7",
+    "content-hash": "6ad90972cbf626433a87e458a50b900b",
     "packages": [
         {
             "name": "predis/predis",
@@ -16,9 +16,15 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/nrk/predis/f0210e38881631afeafb56ab43405a92cafd9fd1.zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=5.3.9"
@@ -58,24 +64,34 @@
         },
         {
             "name": "wazsmwazsm/workerf",
-            "version": "1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wazsmwazsm/WorkerF.git",
-                "reference": "aec7f5a320643f6af0f5f80ae2f4f85d06c57fd5"
+                "reference": "4a4ecf1c2cc092ec1b64608dacfa811bf2b4390b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/wazsmwazsm/WorkerF/aec7f5a320643f6af0f5f80ae2f4f85d06c57fd5.zip",
-                "reference": "aec7f5a320643f6af0f5f80ae2f4f85d06c57fd5",
-                "shasum": ""
+                "url": "https://api.github.com/repos/wazsmwazsm/WorkerF/zipball/4a4ecf1c2cc092ec1b64608dacfa811bf2b4390b",
+                "reference": "4a4ecf1c2cc092ec1b64608dacfa811bf2b4390b",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-pdo": "*",
                 "ext-pdo_mysql": "*",
                 "php": ">=5.4",
-                "predis/predis": "^v1.1.1",
-                "workerman/workerman": "^3.4"
+                "predis/predis": "1.1.*",
+                "workerman/workerman": "3.5.*"
+            },
+            "require-dev": {
+                "phpunit/dbunit": "~2.0",
+                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "autoload": {
@@ -99,25 +115,29 @@
                 "framework",
                 "workerman"
             ],
-            "time": "2017-10-18T03:18:46+00:00"
+            "time": "2018-06-05T12:18:48+00:00"
         },
         {
             "name": "workerman/workerman",
-            "version": "v3.5.1",
+            "version": "v3.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "01aadefdc3e7bf65dd0956d1d876bc9d27cd9156"
+                "reference": "c83e189b5855d91f99a7d01ac58f5bbc7161b5e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/walkor/Workerman/01aadefdc3e7bf65dd0956d1d876bc9d27cd9156.zip",
-                "reference": "01aadefdc3e7bf65dd0956d1d876bc9d27cd9156",
-                "shasum": ""
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/c83e189b5855d91f99a7d01ac58f5bbc7161b5e5",
+                "reference": "c83e189b5855d91f99a7d01ac58f5bbc7161b5e5",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
-                "ext-pcntl": "*",
-                "ext-posix": "*",
                 "php": ">=5.3"
             },
             "suggest": {
@@ -147,7 +167,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2017-08-25T08:26:28+00:00"
+            "time": "2018-06-07T09:36:14+00:00"
         }
     ],
     "packages-dev": [],
@@ -157,7 +177,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4"
+        "php": ">=5.5"
     },
     "platform-dev": []
 }
