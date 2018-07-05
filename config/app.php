@@ -60,4 +60,16 @@ return [
     | example: http://www.test.com/
     */
     'base_url' => '',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Exception Handler
+    |--------------------------------------------------------------------------
+    |
+    | You render an exception into an HTTP response in this Handler. 
+    | If you want to use the default Handler, set it to NULL or ''
+    |
+    | example: http://www.test.com/
+    */
+    'exception_handler' => App\Exceptions\Handler::class,
 ];
