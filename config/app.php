@@ -57,6 +57,7 @@ return [
     | Your Application base url, which will be used by 
     | some method (like Route::redirect) to generate target url
     |
+    | example: http://www.test.com/
     */
     'base_url' => '',
 ];
