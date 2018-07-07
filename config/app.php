@@ -61,4 +61,16 @@ return [
     */
     'base_url' => '',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Registers
+    |--------------------------------------------------------------------------
+    |
+    | Register class you want to instantiate and set to singletons 
+    | when the framework initialize
+    |
+    */
+    'registers' => [
+        // SomeClass::class,
+    ],
 ];
