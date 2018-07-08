@@ -66,7 +66,7 @@ return [
     | Registers
     |--------------------------------------------------------------------------
     |
-    | Register class you want to instantiate and set to singletons 
+    | Register class you want to instantiate and set it to singletons 
     | when the framework initialize
     |
     */
