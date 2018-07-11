@@ -1,6 +1,6 @@
 {
     "name": "wazsmwazsm/workera",
-    "description": "A http framework for workerman.",
+    "description": "A webAPI framework for workerman.",
     "keywords": ["framework", "workerman"],
     "license": "MIT",
     "homepage": "https://github.com/wazsmwazsm/WorkerA",
