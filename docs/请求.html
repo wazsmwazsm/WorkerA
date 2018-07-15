@@ -1,0 +1,152 @@
+<html><head><meta charSet="utf-8"/><title data-react-helmet="true">请求 · WorkerA 1.1 文档  · 看云</title><meta data-react-helmet="true" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><link rel="stylesheet" href="asset/website.css"/></head><body><div id="main"><div class="root"><div class="window-container"><div class="window-head"><div class="toolbar"><a class="title" href=".">WorkerA 1.1 文档</a><div class="extra"></div></div></div><div class="progress"><div style="width:63.1578947368421%" class="progress-bar"></div></div><div class="window-body"><div class="sidebar"><div class="sidebar-selector"><div class="item active"><i class="icon content"></i>目录</div><div class="item"><i class="icon search"></i>搜索</div></div><div class="sidebar-body"><div class="catalog-body active"><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="前言.html" class="text">前言</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="版本说明.html" class="text">版本说明</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="旧版本升级.html" class="text">旧版本升级</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架性能.html" class="text">框架性能</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架结构说明.html" class="text">目录结构、程序架构</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="配置、安装.html" class="text">配置、安装</a></li><li class="open"><div class="wholerow"></div><i class="icon caret down"></i><a href="基本使用.html" class="text">基本使用</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="开始.html" class="text">开始</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="路由.html" class="text">路由</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="控制器.html" class="text">控制器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="中间件.html" class="text">中间件</a></li><li class="active"><div class="wholerow"></div><i class="icon"></i><a href="请求.html" class="text">请求</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="响应.html" class="text">响应</a></li></ul></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="异常处理.html" class="text">异常处理</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="数据库.html" class="text">数据库</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="数据库配置.html" class="text">数据库配置</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="查询构造器.html" class="text">查询构造器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="模型.html" class="text">模型</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="Redis.html" class="text">Redis</a></li></ul></li></ul></div><div class="search-body"><div class="search-form"><form class="ui form"><div class="ui small fluid icon input"><input type="text" placeholder="请输入搜索关键词..."/><i class="search icon"></i></div></form></div><div class="search-result"><div class="blankslate"><i class="icon search"></i><p>暂无相关搜索结果！</p></div></div></div></div><div class="sidebar-copyright">本文档使用 <a href="http://www.kancloud.cn" target="_blank">看云</a> 构建</div></div><div class="workspace"><div class="article-wrap"><div class="article"><div class="article-head"><div class="left floated tools"><a class="item icon"><i class="icon align justify"></i></a></div><div class="right floated tools"></div><h1>请求</h1></div><div class="article-body"><p>目录</p>
+<div class="markdown-toc"><ul><ul><li><a href="#_4">获取请求</a></li><li><a href="#_38">获取请求数据</a></li><li><a href="#_143">文件上传</a></li></ul></ul></div><h2 data-line="4" class="line"><a id="_4"></a>获取请求</h2>
+<p>Requests 实例包含所有请求相关的信息，你可以在路由闭包和控制器方法中使用它。</p>
+<p>直接创建实例对象：</p>
+<pre><code class="language-php">use WorkerF\Http\Route;
+use WorkerF\Http\Requests;
+
+Route::get(&#x27;/a&#x27;, function() {
+    $request = new Requests();
+	return $request-&gt;post();
+});
+</code></pre>
+<p>使用依赖注入：</p>
+<pre><code class="language-php">namespace App\Controller;
+use App\Controller\Controller;
+use WorkerF\Http\Requests;
+
+class TestController extends Controller
+{
+    public function test(Requests $request)
+    {
+        return $request-&gt;post();
+    }
+}
+
+</code></pre>
+<h2 data-line="38" class="line"><a id="_38"></a>获取请求数据</h2>
+<p>我们通常需要获取请求中的 get、post 数据，请求 IP、Path、Url 等信息，这里介绍一些获取这些信息的方法：</p>
+<pre><code class="language-php">namespace App\Controller;
+use App\Controller\Controller;
+use WorkerF\Http\Requests;
+
+class TestController extends Controller
+{
+
+	public function getRequestInfo(Requests $request)
+    {
+        $requestInfo = [];
+
+        $requestInfo[&#x27;get&#x27;] = $request-&gt;get(); // 获取 GET 请求参数
+        $requestInfo[&#x27;post&#x27;] = $request-&gt;post(); // 获取 POST 请求参数
+        $requestInfo[&#x27;request&#x27;] = $request-&gt;request(); // 获取 REQUEST 请求参数
+        $requestInfo[&#x27;server&#x27;] = $request-&gt;server(); // 获取服务器信息
+        $requestInfo[&#x27;cookie&#x27;] = $request-&gt;cookie();  // 获取 cookie
+        $requestInfo[&#x27;rawData&#x27;] = $request-&gt;rawData(); // 获取请求主体原生字符串 (请求传 json、xml 时很好用)
+        $requestInfo[&#x27;method&#x27;] = $request-&gt;method(); // 获取请求的方法
+        $requestInfo[&#x27;isHttps&#x27;] = $request-&gt;isHttps(); // 检测请求是否是 https 请求
+        $requestInfo[&#x27;url&#x27;] = $request-&gt;url(); // 获取请求 url (不带请求参数字符串)
+        $requestInfo[&#x27;fullUrl&#x27;] = $request-&gt;fullUrl(); // 获取请求完整的 url （请求参数字符串)
+        $requestInfo[&#x27;path&#x27;] = $request-&gt;path(); // 获取请求的路径
+        $requestInfo[&#x27;queryString&#x27;] = $request-&gt;queryString(); // 获取请求字符串
+        $requestInfo[&#x27;ip&#x27;] = $request-&gt;ip(); // 获取请求客户端的 ip 地址
+        
+        return $requestInfo;
+    }
+}
+</code></pre>
+<p>执行结果类似如下：</p>
+<pre><code class="language-json">{
+    &quot;get&quot;: {
+        &quot;a&quot;: &quot;12&quot;,
+        &quot;b&quot;: &quot;20&quot;
+    },
+    &quot;post&quot;: {},
+    &quot;request&quot;: {
+        &quot;a&quot;: &quot;12&quot;,
+        &quot;b&quot;: &quot;20&quot;
+    },
+    &quot;server&quot;: {
+        &quot;QUERY_STRING&quot;: &quot;a=12&amp;b=20&quot;,
+        &quot;REQUEST_METHOD&quot;: &quot;GET&quot;,
+        &quot;REQUEST_URI&quot;: &quot;/?a=12&amp;b=20&quot;,
+        &quot;SERVER_PROTOCOL&quot;: &quot;HTTP/1.1&quot;,
+        &quot;SERVER_SOFTWARE&quot;: &quot;workerman/3.5.1&quot;,
+        &quot;SERVER_NAME&quot;: &quot;192.168.10.10&quot;,
+        &quot;HTTP_HOST&quot;: &quot;192.168.10.10:9999&quot;,
+        &quot;HTTP_USER_AGENT&quot;: &quot;PostmanRuntime/7.1.1&quot;,
+        &quot;HTTP_ACCEPT&quot;: &quot;*/*&quot;,
+        &quot;HTTP_ACCEPT_LANGUAGE&quot;: &quot;&quot;,
+        &quot;HTTP_ACCEPT_ENCODING&quot;: &quot;gzip, deflate&quot;,
+        &quot;HTTP_COOKIE&quot;: &quot;&quot;,
+        &quot;HTTP_CONNECTION&quot;: &quot;keep-alive&quot;,
+        &quot;REMOTE_ADDR&quot;: &quot;192.168.10.1&quot;,
+        &quot;REMOTE_PORT&quot;: 61934,
+        &quot;REQUEST_TIME&quot;: 1530616312,
+        &quot;HTTP_CACHE_CONTROL&quot;: &quot;no-cache&quot;,
+        &quot;HTTP_POSTMAN_TOKEN&quot;: &quot;eb54c1dd-0a07-4ec7-900a-683e17e7d9eb&quot;,
+        &quot;SERVER_PORT&quot;: &quot;9999&quot;
+    },
+    &quot;cookie&quot;: {},
+    &quot;rawData&quot;: &quot;&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;isHttps&quot;: false,
+    &quot;url&quot;: &quot;http://192.168.10.10:9999/&quot;,
+    &quot;fullUrl&quot;: &quot;http://192.168.10.10:9999/?a=12&amp;b=20&quot;,
+    &quot;path&quot;: &quot;/&quot;,
+    &quot;queryString&quot;: &quot;a=12&amp;b=20&quot;,
+    &quot;ip&quot;: &quot;192.168.10.1&quot;
+}
+</code></pre>
+<p>获取 request 请求参数 (包含 get 和 post 参数) 时，你也可以通过使用 Requests 实例访问属性获取：</p>
+<pre><code class="language-php">
+namespace App\Controller;
+use App\Controller\Controller;
+use WorkerF\Http\Requests;
+
+class TestController extends Controller
+{
+
+	public function test(Requests $request)
+    {
+    	// 获取请求参数 name
+        $name = $request-&gt;name;
+        // 获取请求参数 age
+        $age = $request-&gt;age;
+        
+        return &quot;name: $name, age: $age&quot;;
+    }
+}
+
+</code></pre>
+<h2 data-line="143" class="line"><a id="_143"></a>文件上传</h2>
+<p>你可以使用 Requests 实例的 file($name) 方法获得上传的文件信息，该方法返回一个 WorkerF\Http\File 对象。</p>
+<p>如果使用 imput multiple 上传多个文件，那么 file($name) 方法获得的是一个包含多个 WorkerF\Http\File 对象的数组，需要遍历进行处理。</p>
+<p>你可以使用 File 对象的 move($targetPath, $targetName) 方法将文件保存到指定位置。</p>
+<p>例子：</p>
+<pre><code class="language-php">namespace App\Controller;
+use App\Controller\Controller;
+use WorkerF\Http\Requests;
+
+class TestController extends Controller
+{
+
+	public function test(Requests $request)
+    {
+    	// 获取请求文件
+        $image = $request-&gt;file(&#x27;image&#x27;);
+        // 获取文件名称
+        $file_name = $image-&gt;getFileName();
+        // 获取文件大小
+        $file_size = $image-&gt;getFileSize();	
+        // 获取文件类型
+        $file_type = $image-&gt;getFileType();
+        
+        // 移动文件到目录
+        $image-&gt;move(&#x27;/tmp/upload/&#x27;, $file_name);
+        
+        return &quot;something&quot;;
+    }
+}
+</code></pre>
+ </div><div class="article-navigation"><span class="prev">上一篇：<a href="中间件.html">中间件</a></span><span class="next">下一篇：<a href="响应.html">响应</a></span></div></div></div></div></div></div></div></div><script src="asset/website.js"></script><script src="asset/plugins/highlight/index.js"></script><script type="application/payload+json">{"config":{"plugins":["highlight"],"price":0,"name":"wazsmwazsm/workera","sha":"0394c7aad780584659700053d4efaba1f4d43a76","title":"WorkerA 1.1 文档","id":70629},"catalog":[{"id":"前言.html","name":"前言.md","title":"前言","depth":1},{"id":"版本说明.html","name":"版本说明.md","title":"版本说明","depth":1},{"id":"旧版本升级.html","name":"旧版本升级.md","title":"旧版本升级","depth":1},{"id":"框架性能.html","name":"框架性能.md","title":"框架性能","depth":1},{"id":"框架结构说明.html","name":"框架结构说明.md","title":"目录结构、程序架构","depth":1},{"id":"配置、安装.html","name":"配置、安装.md","title":"配置、安装","depth":1},{"id":"基本使用.html","name":"基本使用.md","title":"基本使用","depth":1,"children":[{"id":"开始.html","name":"开始.md","title":"开始","depth":2},{"id":"路由.html","name":"路由.md","title":"路由","depth":2},{"id":"控制器.html","name":"控制器.md","title":"控制器","depth":2},{"id":"中间件.html","name":"中间件.md","title":"中间件","depth":2},{"id":"请求.html","name":"请求.md","title":"请求","depth":2},{"id":"响应.html","name":"响应.md","title":"响应","depth":2}]},{"id":"异常处理.html","name":"异常处理.md","title":"异常处理","depth":1},{"id":"数据库.html","name":"数据库.md","title":"数据库","depth":1,"children":[{"id":"数据库配置.html","name":"数据库配置.md","title":"数据库配置","depth":2},{"id":"查询构造器.html","name":"查询构造器.md","title":"查询构造器","depth":2},{"id":"模型.html","name":"模型.md","title":"模型","depth":2},{"id":"Redis.html","name":"Redis.md","title":"Redis","depth":2}]}],"article":{"id":"请求.html","name":"请求.md","title":"请求","content":"目录\n\n[TOC]\n\n## 获取请求\n\nRequests 实例包含所有请求相关的信息，你可以在路由闭包和控制器方法中使用它。\n\n直接创建实例对象：\n\n```php\nuse WorkerF\\Http\\Route;\nuse WorkerF\\Http\\Requests;\n\nRoute::get('/a', function() {\n    $request = new Requests();\n\treturn $request->post();\n});\n```\n\n使用依赖注入：\n\n```php\nnamespace App\\Controller;\nuse App\\Controller\\Controller;\nuse WorkerF\\Http\\Requests;\n\nclass TestController extends Controller\n{\n    public function test(Requests $request)\n    {\n        return $request->post();\n    }\n}\n\n```\n\n\n## 获取请求数据\n\n\n我们通常需要获取请求中的 get、post 数据，请求 IP、Path、Url 等信息，这里介绍一些获取这些信息的方法：\n\n```php\nnamespace App\\Controller;\nuse App\\Controller\\Controller;\nuse WorkerF\\Http\\Requests;\n\nclass TestController extends Controller\n{\n\n\tpublic function getRequestInfo(Requests $request)\n    {\n        $requestInfo = [];\n\n        $requestInfo['get'] = $request->get(); // 获取 GET 请求参数\n        $requestInfo['post'] = $request->post(); // 获取 POST 请求参数\n        $requestInfo['request'] = $request->request(); // 获取 REQUEST 请求参数\n        $requestInfo['server'] = $request->server(); // 获取服务器信息\n        $requestInfo['cookie'] = $request->cookie();  // 获取 cookie\n        $requestInfo['rawData'] = $request->rawData(); // 获取请求主体原生字符串 (请求传 json、xml 时很好用)\n        $requestInfo['method'] = $request->method(); // 获取请求的方法\n        $requestInfo['isHttps'] = $request->isHttps(); // 检测请求是否是 https 请求\n        $requestInfo['url'] = $request->url(); // 获取请求 url (不带请求参数字符串)\n        $requestInfo['fullUrl'] = $request->fullUrl(); // 获取请求完整的 url （请求参数字符串)\n        $requestInfo['path'] = $request->path(); // 获取请求的路径\n        $requestInfo['queryString'] = $request->queryString(); // 获取请求字符串\n        $requestInfo['ip'] = $request->ip(); // 获取请求客户端的 ip 地址\n        \n        return $requestInfo;\n    }\n}\n```\n\n执行结果类似如下：\n```json\n{\n    \"get\": {\n        \"a\": \"12\",\n        \"b\": \"20\"\n    },\n    \"post\": {},\n    \"request\": {\n        \"a\": \"12\",\n        \"b\": \"20\"\n    },\n    \"server\": {\n        \"QUERY_STRING\": \"a=12&b=20\",\n        \"REQUEST_METHOD\": \"GET\",\n        \"REQUEST_URI\": \"/?a=12&b=20\",\n        \"SERVER_PROTOCOL\": \"HTTP/1.1\",\n        \"SERVER_SOFTWARE\": \"workerman/3.5.1\",\n        \"SERVER_NAME\": \"192.168.10.10\",\n        \"HTTP_HOST\": \"192.168.10.10:9999\",\n        \"HTTP_USER_AGENT\": \"PostmanRuntime/7.1.1\",\n        \"HTTP_ACCEPT\": \"*/*\",\n        \"HTTP_ACCEPT_LANGUAGE\": \"\",\n        \"HTTP_ACCEPT_ENCODING\": \"gzip, deflate\",\n        \"HTTP_COOKIE\": \"\",\n        \"HTTP_CONNECTION\": \"keep-alive\",\n        \"REMOTE_ADDR\": \"192.168.10.1\",\n        \"REMOTE_PORT\": 61934,\n        \"REQUEST_TIME\": 1530616312,\n        \"HTTP_CACHE_CONTROL\": \"no-cache\",\n        \"HTTP_POSTMAN_TOKEN\": \"eb54c1dd-0a07-4ec7-900a-683e17e7d9eb\",\n        \"SERVER_PORT\": \"9999\"\n    },\n    \"cookie\": {},\n    \"rawData\": \"\",\n    \"method\": \"GET\",\n    \"isHttps\": false,\n    \"url\": \"http://192.168.10.10:9999/\",\n    \"fullUrl\": \"http://192.168.10.10:9999/?a=12&b=20\",\n    \"path\": \"/\",\n    \"queryString\": \"a=12&b=20\",\n    \"ip\": \"192.168.10.1\"\n}\n```\n\n获取 request 请求参数 (包含 get 和 post 参数) 时，你也可以通过使用 Requests 实例访问属性获取：\n\n```php\n\nnamespace App\\Controller;\nuse App\\Controller\\Controller;\nuse WorkerF\\Http\\Requests;\n\nclass TestController extends Controller\n{\n\n\tpublic function test(Requests $request)\n    {\n    \t// 获取请求参数 name\n        $name = $request->name;\n        // 获取请求参数 age\n        $age = $request->age;\n        \n        return \"name: $name, age: $age\";\n    }\n}\n\n```\n\n## 文件上传\n\n你可以使用 Requests 实例的 file($name) 方法获得上传的文件信息，该方法返回一个 WorkerF\\Http\\File 对象。\n\n如果使用 imput multiple 上传多个文件，那么 file($name) 方法获得的是一个包含多个 WorkerF\\Http\\File 对象的数组，需要遍历进行处理。\n\n你可以使用 File 对象的 move($targetPath, $targetName) 方法将文件保存到指定位置。\n\n例子：\n```php\nnamespace App\\Controller;\nuse App\\Controller\\Controller;\nuse WorkerF\\Http\\Requests;\n\nclass TestController extends Controller\n{\n\n\tpublic function test(Requests $request)\n    {\n    \t// 获取请求文件\n        $image = $request->file('image');\n        // 获取文件名称\n        $file_name = $image->getFileName();\n        // 获取文件大小\n        $file_size = $image->getFileSize();\t\n        // 获取文件类型\n        $file_type = $image->getFileType();\n        \n        // 移动文件到目录\n        $image->move('/tmp/upload/', $file_name);\n        \n        return \"something\";\n    }\n}\n```\n"},"options":{"plugins_host":null,"context":"website","base":"./","features":["search","internal_link"]},"style":""}</script><script type="text/javascript">kancloud.bootstrap();</script></body></html>

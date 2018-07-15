@@ -1,0 +1,132 @@
+<html><head><meta charSet="utf-8"/><title data-react-helmet="true">框架性能 · WorkerA 1.1 文档  · 看云</title><meta data-react-helmet="true" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><link rel="stylesheet" href="asset/website.css"/></head><body><div id="main"><div class="root"><div class="window-container"><div class="window-head"><div class="toolbar"><a class="title" href=".">WorkerA 1.1 文档</a><div class="extra"></div></div></div><div class="progress"><div style="width:21.052631578947366%" class="progress-bar"></div></div><div class="window-body"><div class="sidebar"><div class="sidebar-selector"><div class="item active"><i class="icon content"></i>目录</div><div class="item"><i class="icon search"></i>搜索</div></div><div class="sidebar-body"><div class="catalog-body active"><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="前言.html" class="text">前言</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="版本说明.html" class="text">版本说明</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="旧版本升级.html" class="text">旧版本升级</a></li><li class="active"><div class="wholerow"></div><i class="icon"></i><a href="框架性能.html" class="text">框架性能</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架结构说明.html" class="text">目录结构、程序架构</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="配置、安装.html" class="text">配置、安装</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="基本使用.html" class="text">基本使用</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="开始.html" class="text">开始</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="路由.html" class="text">路由</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="控制器.html" class="text">控制器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="中间件.html" class="text">中间件</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="请求.html" class="text">请求</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="响应.html" class="text">响应</a></li></ul></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="异常处理.html" class="text">异常处理</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="数据库.html" class="text">数据库</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="数据库配置.html" class="text">数据库配置</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="查询构造器.html" class="text">查询构造器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="模型.html" class="text">模型</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="Redis.html" class="text">Redis</a></li></ul></li></ul></div><div class="search-body"><div class="search-form"><form class="ui form"><div class="ui small fluid icon input"><input type="text" placeholder="请输入搜索关键词..."/><i class="search icon"></i></div></form></div><div class="search-result"><div class="blankslate"><i class="icon search"></i><p>暂无相关搜索结果！</p></div></div></div></div><div class="sidebar-copyright">本文档使用 <a href="http://www.kancloud.cn" target="_blank">看云</a> 构建</div></div><div class="workspace"><div class="article-wrap"><div class="article"><div class="article-head"><div class="left floated tools"><a class="item icon"><i class="icon align justify"></i></a></div><div class="right floated tools"></div><h1>框架性能</h1></div><div class="article-body"><p>目录</p>
+<div class="markdown-toc"><ul><ul><li><a href="#_6">压力测试</a></li><li><a href="#_91">对比</a></li></ul></ul></div><h2 data-line="6" class="line"><a id="_6"></a>压力测试</h2>
+<p><strong>设备：</strong></p>
+<p>阿里云服务器</p>
+<p>CPU: 2 核 (Intel(R) Xeon(R) Platinum 8163 CPU @ 2.50GHz)<br/>
+内存：4G<br/>
+操作系统：Ubuntu 16.04.4 LTS<br/>
+PHP 版本：7.1.19</p>
+<p><strong>业务：</strong></p>
+<p>简单的在控制器中返回一个字符串。</p>
+<p><strong>工具：</strong></p>
+<p>apaceh ab</p>
+<p><strong>并发：</strong></p>
+<p>10000 连接，100 并发</p>
+<p>结果：</p>
+<pre><code class="language-bash">ab -n10000 -c100 -k http://127.0.0.1:8999/
+
+This is ApacheBench, Version 2.3 &lt;$Revision: 1706008 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Completed 1000 requests
+Completed 2000 requests
+Completed 3000 requests
+Completed 4000 requests
+Completed 5000 requests
+Completed 6000 requests
+Completed 7000 requests
+Completed 8000 requests
+Completed 9000 requests
+Completed 10000 requests
+Finished 10000 requests
+
+
+Server Software:        workerman/3.5.1
+Server Hostname:        127.0.0.1
+Server Port:            8999
+
+Document Path:          /
+Document Length:        1 bytes
+
+Concurrency Level:      100
+Time taken for tests:   0.281 seconds
+Complete requests:      10000
+Failed requests:        0
+Keep-Alive requests:    10000
+Total transferred:      1270000 bytes
+HTML transferred:       10000 bytes
+Requests per second:    35623.70 [#/sec] (mean)
+Time per request:       2.807 [ms] (mean)
+Time per request:       0.028 [ms] (mean, across all concurrent requests)
+Transfer rate:          4418.17 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.2      0       3
+Processing:     0    3   1.8      4       8
+Waiting:        0    3   1.8      4       8
+Total:          0    3   1.8      4       8
+
+Percentage of the requests served within a certain time (ms)
+  50%      4
+  66%      4
+  75%      4
+  80%      4
+  90%      4
+  95%      5
+  98%      7
+  99%      8
+ 100%      8 (longest request)
+</code></pre>
+<h2 data-line="91" class="line"><a id="_91"></a>对比</h2>
+<p>对比同样环境业务下，传统 web 服务器模型 nginx1.10.3 + php7.1-fpm + laravel5.1 的压测结果：</p>
+<pre><code class="language-bash">ab -n10000 -c100 -k http://127.0.0.1/hello/
+
+This is ApacheBench, Version 2.3 &lt;$Revision: 1706008 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Completed 1000 requests
+Completed 2000 requests
+Completed 3000 requests
+Completed 4000 requests
+Completed 5000 requests
+Completed 6000 requests
+Completed 7000 requests
+Completed 8000 requests
+Completed 9000 requests
+Completed 10000 requests
+Finished 10000 requests
+
+
+Server Software:        nginx/1.10.3
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /hello/
+Document Length:        1 bytes
+
+Concurrency Level:      100
+Time taken for tests:   39.039 seconds
+Complete requests:      10000
+Failed requests:        0
+Keep-Alive requests:    0
+Total transferred:      9641140 bytes
+HTML transferred:       10000 bytes
+Requests per second:    256.16 [#/sec] (mean)
+Time per request:       390.387 [ms] (mean)
+Time per request:       3.904 [ms] (mean, across all concurrent requests)
+Transfer rate:          241.18 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.2      0       3
+Processing:    10  387 126.1    370    1304
+Waiting:       10  387 126.1    370    1304
+Total:         13  387 126.0    370    1304
+
+Percentage of the requests served within a certain time (ms)
+  50%    370
+  66%    412
+  75%    442
+  80%    464
+  90%    535
+  95%    636
+  98%    751
+  99%    797
+ 100%   1304 (longest request)
+</code></pre>
+ </div><div class="article-navigation"><span class="prev">上一篇：<a href="旧版本升级.html">旧版本升级</a></span><span class="next">下一篇：<a href="框架结构说明.html">目录结构、程序架构</a></span></div></div></div></div></div></div></div></div><script src="asset/website.js"></script><script src="asset/plugins/highlight/index.js"></script><script type="application/payload+json">{"config":{"plugins":["highlight"],"price":0,"name":"wazsmwazsm/workera","sha":"0394c7aad780584659700053d4efaba1f4d43a76","title":"WorkerA 1.1 文档","id":70629},"catalog":[{"id":"前言.html","name":"前言.md","title":"前言","depth":1},{"id":"版本说明.html","name":"版本说明.md","title":"版本说明","depth":1},{"id":"旧版本升级.html","name":"旧版本升级.md","title":"旧版本升级","depth":1},{"id":"框架性能.html","name":"框架性能.md","title":"框架性能","depth":1},{"id":"框架结构说明.html","name":"框架结构说明.md","title":"目录结构、程序架构","depth":1},{"id":"配置、安装.html","name":"配置、安装.md","title":"配置、安装","depth":1},{"id":"基本使用.html","name":"基本使用.md","title":"基本使用","depth":1,"children":[{"id":"开始.html","name":"开始.md","title":"开始","depth":2},{"id":"路由.html","name":"路由.md","title":"路由","depth":2},{"id":"控制器.html","name":"控制器.md","title":"控制器","depth":2},{"id":"中间件.html","name":"中间件.md","title":"中间件","depth":2},{"id":"请求.html","name":"请求.md","title":"请求","depth":2},{"id":"响应.html","name":"响应.md","title":"响应","depth":2}]},{"id":"异常处理.html","name":"异常处理.md","title":"异常处理","depth":1},{"id":"数据库.html","name":"数据库.md","title":"数据库","depth":1,"children":[{"id":"数据库配置.html","name":"数据库配置.md","title":"数据库配置","depth":2},{"id":"查询构造器.html","name":"查询构造器.md","title":"查询构造器","depth":2},{"id":"模型.html","name":"模型.md","title":"模型","depth":2},{"id":"Redis.html","name":"Redis.md","title":"Redis","depth":2}]}],"article":{"id":"框架性能.html","name":"框架性能.md","title":"框架性能","content":"目录\n\n\n[TOC]\n\n\n## 压力测试\n\n**设备：**\n\n阿里云服务器\n\nCPU: 2 核 (Intel(R) Xeon(R) Platinum 8163 CPU @ 2.50GHz)\n内存：4G\n操作系统：Ubuntu 16.04.4 LTS\nPHP 版本：7.1.19\n\n\n**业务：**\n\n简单的在控制器中返回一个字符串。\n\n**工具：**\n\napaceh ab\n\n**并发：**\n\n10000 连接，100 并发\n\n结果：\n\n```bash\nab -n10000 -c100 -k http://127.0.0.1:8999/\n\nThis is ApacheBench, Version 2.3 <$Revision: 1706008 $>\nCopyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/\nLicensed to The Apache Software Foundation, http://www.apache.org/\n\nBenchmarking 127.0.0.1 (be patient)\nCompleted 1000 requests\nCompleted 2000 requests\nCompleted 3000 requests\nCompleted 4000 requests\nCompleted 5000 requests\nCompleted 6000 requests\nCompleted 7000 requests\nCompleted 8000 requests\nCompleted 9000 requests\nCompleted 10000 requests\nFinished 10000 requests\n\n\nServer Software:        workerman/3.5.1\nServer Hostname:        127.0.0.1\nServer Port:            8999\n\nDocument Path:          /\nDocument Length:        1 bytes\n\nConcurrency Level:      100\nTime taken for tests:   0.281 seconds\nComplete requests:      10000\nFailed requests:        0\nKeep-Alive requests:    10000\nTotal transferred:      1270000 bytes\nHTML transferred:       10000 bytes\nRequests per second:    35623.70 [#/sec] (mean)\nTime per request:       2.807 [ms] (mean)\nTime per request:       0.028 [ms] (mean, across all concurrent requests)\nTransfer rate:          4418.17 [Kbytes/sec] received\n\nConnection Times (ms)\n              min  mean[+/-sd] median   max\nConnect:        0    0   0.2      0       3\nProcessing:     0    3   1.8      4       8\nWaiting:        0    3   1.8      4       8\nTotal:          0    3   1.8      4       8\n\nPercentage of the requests served within a certain time (ms)\n  50%      4\n  66%      4\n  75%      4\n  80%      4\n  90%      4\n  95%      5\n  98%      7\n  99%      8\n 100%      8 (longest request)\n```\n\n## 对比\n\n对比同样环境业务下，传统 web 服务器模型 nginx1.10.3 + php7.1-fpm + laravel5.1 的压测结果：\n\n```bash\nab -n10000 -c100 -k http://127.0.0.1/hello/\n\nThis is ApacheBench, Version 2.3 <$Revision: 1706008 $>\nCopyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/\nLicensed to The Apache Software Foundation, http://www.apache.org/\n\nBenchmarking 127.0.0.1 (be patient)\nCompleted 1000 requests\nCompleted 2000 requests\nCompleted 3000 requests\nCompleted 4000 requests\nCompleted 5000 requests\nCompleted 6000 requests\nCompleted 7000 requests\nCompleted 8000 requests\nCompleted 9000 requests\nCompleted 10000 requests\nFinished 10000 requests\n\n\nServer Software:        nginx/1.10.3\nServer Hostname:        127.0.0.1\nServer Port:            80\n\nDocument Path:          /hello/\nDocument Length:        1 bytes\n\nConcurrency Level:      100\nTime taken for tests:   39.039 seconds\nComplete requests:      10000\nFailed requests:        0\nKeep-Alive requests:    0\nTotal transferred:      9641140 bytes\nHTML transferred:       10000 bytes\nRequests per second:    256.16 [#/sec] (mean)\nTime per request:       390.387 [ms] (mean)\nTime per request:       3.904 [ms] (mean, across all concurrent requests)\nTransfer rate:          241.18 [Kbytes/sec] received\n\nConnection Times (ms)\n              min  mean[+/-sd] median   max\nConnect:        0    0   0.2      0       3\nProcessing:    10  387 126.1    370    1304\nWaiting:       10  387 126.1    370    1304\nTotal:         13  387 126.0    370    1304\n\nPercentage of the requests served within a certain time (ms)\n  50%    370\n  66%    412\n  75%    442\n  80%    464\n  90%    535\n  95%    636\n  98%    751\n  99%    797\n 100%   1304 (longest request)\n```"},"options":{"plugins_host":null,"context":"website","base":"./","features":["search","internal_link"]},"style":""}</script><script type="text/javascript">kancloud.bootstrap();</script></body></html>

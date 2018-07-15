@@ -1,0 +1,84 @@
+<html><head><meta charSet="utf-8"/><title data-react-helmet="true">Redis · WorkerA 1.1 文档  · 看云</title><meta data-react-helmet="true" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><link rel="stylesheet" href="asset/website.css"/></head><body><div id="main"><div class="root"><div class="window-container"><div class="window-head"><div class="toolbar"><a class="title" href=".">WorkerA 1.1 文档</a><div class="extra"></div></div></div><div class="progress"><div style="width:100%" class="progress-bar"></div></div><div class="window-body"><div class="sidebar"><div class="sidebar-selector"><div class="item active"><i class="icon content"></i>目录</div><div class="item"><i class="icon search"></i>搜索</div></div><div class="sidebar-body"><div class="catalog-body active"><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="前言.html" class="text">前言</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="版本说明.html" class="text">版本说明</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="旧版本升级.html" class="text">旧版本升级</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架性能.html" class="text">框架性能</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架结构说明.html" class="text">目录结构、程序架构</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="配置、安装.html" class="text">配置、安装</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="基本使用.html" class="text">基本使用</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="开始.html" class="text">开始</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="路由.html" class="text">路由</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="控制器.html" class="text">控制器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="中间件.html" class="text">中间件</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="请求.html" class="text">请求</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="响应.html" class="text">响应</a></li></ul></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="异常处理.html" class="text">异常处理</a></li><li class="open"><div class="wholerow"></div><i class="icon caret down"></i><a href="数据库.html" class="text">数据库</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="数据库配置.html" class="text">数据库配置</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="查询构造器.html" class="text">查询构造器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="模型.html" class="text">模型</a></li><li class="active"><div class="wholerow"></div><i class="icon"></i><a href="Redis.html" class="text">Redis</a></li></ul></li></ul></div><div class="search-body"><div class="search-form"><form class="ui form"><div class="ui small fluid icon input"><input type="text" placeholder="请输入搜索关键词..."/><i class="search icon"></i></div></form></div><div class="search-result"><div class="blankslate"><i class="icon search"></i><p>暂无相关搜索结果！</p></div></div></div></div><div class="sidebar-copyright">本文档使用 <a href="http://www.kancloud.cn" target="_blank">看云</a> 构建</div></div><div class="workspace"><div class="article-wrap"><div class="article"><div class="article-head"><div class="left floated tools"><a class="item icon"><i class="icon align justify"></i></a></div><div class="right floated tools"></div><h1>Redis</h1></div><div class="article-body"><p>目录</p>
+<div class="markdown-toc"><ul><ul><li><a href="#_6">配置</a></li><li><a href="#_39">使用</a></li><ul><li><a href="#_43">获取连接</a></li><li><a href="#_52">基本操作</a></li><li><a href="#pipeline_84">pipeline</a></li><li><a href="#_95">发布与订阅</a></li></ul></ul></ul></div><p>WorkerA 的 Redis 功能基于 <a href="https://github.com/nrk/predis" title="predis" target="_blank">predis</a>，使用方式也和 predis 相似。</p>
+<h2 data-line="6" class="line"><a id="_6"></a>配置</h2>
+<p>redis 的配置在 config/database/php 中：</p>
+<pre><code class="language-php">&#x27;redis&#x27; =&gt; [
+    &#x27;cluster&#x27; =&gt; FALSE, // 是否使用 redis 集群
+    &#x27;options&#x27; =&gt; NULL,	// 
+    &#x27;rd_con&#x27; =&gt; [ // redis 连接
+      &#x27;default&#x27; =&gt; [
+          &#x27;host&#x27;     =&gt; &#x27;127.0.0.1&#x27;, // 主机名 
+          &#x27;password&#x27; =&gt; NULL,        // 密码
+          &#x27;port&#x27;     =&gt; 6379,        // 端口
+          &#x27;database&#x27; =&gt; 0,           // 数据库索引
+          // &#x27;read_write_timeout&#x27; =&gt; 0, // 超时时间，0 或 -1 禁用超时
+      ],
+      &#x27;other&#x27; =&gt; [
+      	  &#x27;host&#x27;     =&gt; &#x27;xx.xx.xx.xx&#x27;,
+          &#x27;password&#x27; =&gt; NULL,
+          &#x27;port&#x27;     =&gt; 6379,
+          &#x27;database&#x27; =&gt; 0,
+          // &#x27;read_write_timeout&#x27; =&gt; 0, 
+      ],
+    ]
+]
+</code></pre>
+<p><strong>关于配置的一些说明：</strong></p>
+<p>cluster 为 FALSE 时，框架初始化后 rd_con 中的每条配置都会创建一个 redis 连接。cluster 为 TRUE 时，框架初始化后只会创建一个连接，rd_con 中的每条配置会被当做 cluster 模式中的一个节点。</p>
+<p>因为 WorkerA 在常驻内存模式下运行，需要对 redis 的超时问题做处理。设置 read_write_timeout 参数为 0 或 -1 时即可禁止超时。详见：<a href="https://github.com/nrk/predis/issues/33#issuecomment-1395652" target="_blank">predis - issue#33</a></p>
+<h2 data-line="39" class="line"><a id="_39"></a>使用</h2>
+<p>WorkerA 对 predis 的封装参考了 Laravel，所以你可以像在 Laravel 中一样对 redis 进行操作。</p>
+<h3 data-line="43" class="line"><a id="_43"></a>获取连接</h3>
+<p>默认连接 default 是不用获取的，不指定则默认使用 default 连接。如果你要访问其它连接，请使用 WorkerF\DB\Redis 类的 connection 方法：</p>
+<pre><code class="language-php">use WorkerF\DB\Redis;
+...
+$con = Redis::connection(&#x27;other&#x27;);
+</code></pre>
+<h3 data-line="52" class="line"><a id="_52"></a>基本操作</h3>
+<p>WorkerF\DB\Redis 类支持所有 redis 方法，你可以直接调用方法名称：</p>
+<pre><code class="language-php">namespace App\Controller;
+use App\Controller\Controller;
+use App\Models\Test;
+use WorkerF\DB\Redis;
+
+class TestController extends Controller
+{
+    public function test(Test $test)
+    {
+    	// 从 redis 获取数据
+        $value = Redis::get(&#x27;rst&#x27;);
+        if( ! $value) {
+             $rst = $test-&gt;getData();
+             // 设置 redis 数据
+             Redis::set(&#x27;rst&#x27;, json_encode($rst));
+        } else {
+             $rst = json_decode($value);
+        }
+        return $rst;
+    }
+}
+</code></pre>
+<p>WorkerF\DB\Redis 类还提供了一个 command 方法，用来发送 redis 命令：</p>
+<pre><code class="language-php">$values = Redis::command(&#x27;get&#x27;, &#x27;rst&#x27;);
+$values = Redis::command(&#x27;set&#x27;, [&#x27;rst&#x27;, json_encode($rst)]);
+</code></pre>
+<h3 data-line="84" class="line"><a id="pipeline_84"></a>pipeline</h3>
+<p>predis 提供了 pipeline 流水线模式，可以减少向 redis 发送大量命令时的网络请求延迟问题。WorkerF\DB\Redis 类直接调用了 predis 的 pipeline 方法：</p>
+<pre><code class="language-php">Redis::pipeline(function ($pipe) {
+    for ($i = 0; $i &lt; 1000; $i++) {
+        $pipe-&gt;set(&quot;key:$i&quot;, $i);
+    }
+});
+</code></pre>
+<h3 data-line="95" class="line"><a id="_95"></a>发布与订阅</h3>
+<p>同样，Redis 类提供了发布和订阅 (publish / subscribe) 功能：</p>
+<pre><code class="language-php">// subscribe
+Redis::subscribe(&#x27;test-channel&#x27;, function($msg) {
+    echo $msg;
+});
+// publish
+Redis::publish(&#x27;test-channel&#x27;, json_encode([&#x27;foo&#x27; =&gt; &#x27;bar&#x27;]));
+</code></pre>
+<blockquote class="default"><p>注：subscribe 方法会阻塞进程，所以不要在框架加载后使用。你可以在 WorkerStart.php 中的 onWorkerStart 回调中选取一个进程来单独执行 subscribe。<br/>
+当然，基于 workerman 的环境，你可以使用更多 socket 相关方法来处理发布、订阅的业务，没必要非用 redis 的 publish / subscribe 不可。</p></blockquote>
+ </div><div class="article-navigation"><span class="prev">上一篇：<a href="模型.html">模型</a></span></div></div></div></div></div></div></div></div><script src="asset/website.js"></script><script src="asset/plugins/highlight/index.js"></script><script type="application/payload+json">{"config":{"plugins":["highlight"],"price":0,"name":"wazsmwazsm/workera","sha":"0394c7aad780584659700053d4efaba1f4d43a76","title":"WorkerA 1.1 文档","id":70629},"catalog":[{"id":"前言.html","name":"前言.md","title":"前言","depth":1},{"id":"版本说明.html","name":"版本说明.md","title":"版本说明","depth":1},{"id":"旧版本升级.html","name":"旧版本升级.md","title":"旧版本升级","depth":1},{"id":"框架性能.html","name":"框架性能.md","title":"框架性能","depth":1},{"id":"框架结构说明.html","name":"框架结构说明.md","title":"目录结构、程序架构","depth":1},{"id":"配置、安装.html","name":"配置、安装.md","title":"配置、安装","depth":1},{"id":"基本使用.html","name":"基本使用.md","title":"基本使用","depth":1,"children":[{"id":"开始.html","name":"开始.md","title":"开始","depth":2},{"id":"路由.html","name":"路由.md","title":"路由","depth":2},{"id":"控制器.html","name":"控制器.md","title":"控制器","depth":2},{"id":"中间件.html","name":"中间件.md","title":"中间件","depth":2},{"id":"请求.html","name":"请求.md","title":"请求","depth":2},{"id":"响应.html","name":"响应.md","title":"响应","depth":2}]},{"id":"异常处理.html","name":"异常处理.md","title":"异常处理","depth":1},{"id":"数据库.html","name":"数据库.md","title":"数据库","depth":1,"children":[{"id":"数据库配置.html","name":"数据库配置.md","title":"数据库配置","depth":2},{"id":"查询构造器.html","name":"查询构造器.md","title":"查询构造器","depth":2},{"id":"模型.html","name":"模型.md","title":"模型","depth":2},{"id":"Redis.html","name":"Redis.md","title":"Redis","depth":2}]}],"article":{"id":"Redis.html","name":"Redis.md","title":"Redis","content":"目录\n\n[TOC]\n\nWorkerA 的 Redis 功能基于 [predis](https://github.com/nrk/predis \"predis\")，使用方式也和 predis 相似。\n\n## 配置\n\nredis 的配置在 config/database/php 中：\n```php\n'redis' => [\n    'cluster' => FALSE, // 是否使用 redis 集群\n    'options' => NULL,\t// \n    'rd_con' => [ // redis 连接\n      'default' => [\n          'host'     => '127.0.0.1', // 主机名 \n          'password' => NULL,        // 密码\n          'port'     => 6379,        // 端口\n          'database' => 0,           // 数据库索引\n          // 'read_write_timeout' => 0, // 超时时间，0 或 -1 禁用超时\n      ],\n      'other' => [\n      \t  'host'     => 'xx.xx.xx.xx',\n          'password' => NULL,\n          'port'     => 6379,\n          'database' => 0,\n          // 'read_write_timeout' => 0, \n      ],\n    ]\n]\n```\n\n**关于配置的一些说明：**\n\ncluster 为 FALSE 时，框架初始化后 rd_con 中的每条配置都会创建一个 redis 连接。cluster 为 TRUE 时，框架初始化后只会创建一个连接，rd_con 中的每条配置会被当做 cluster 模式中的一个节点。\n\n因为 WorkerA 在常驻内存模式下运行，需要对 redis 的超时问题做处理。设置 read_write_timeout 参数为 0 或 -1 时即可禁止超时。详见：[predis - issue#33](https://github.com/nrk/predis/issues/33#issuecomment-1395652)\n\n\n## 使用\n\nWorkerA 对 predis 的封装参考了 Laravel，所以你可以像在 Laravel 中一样对 redis 进行操作。\n\n### 获取连接\n\n默认连接 default 是不用获取的，不指定则默认使用 default 连接。如果你要访问其它连接，请使用 WorkerF\\DB\\Redis 类的 connection 方法：\n```php\nuse WorkerF\\DB\\Redis;\n...\n$con = Redis::connection('other');\n```\n\n### 基本操作\n\nWorkerF\\DB\\Redis 类支持所有 redis 方法，你可以直接调用方法名称：\n\n```php\nnamespace App\\Controller;\nuse App\\Controller\\Controller;\nuse App\\Models\\Test;\nuse WorkerF\\DB\\Redis;\n\nclass TestController extends Controller\n{\n    public function test(Test $test)\n    {\n    \t// 从 redis 获取数据\n        $value = Redis::get('rst');\n        if( ! $value) {\n             $rst = $test->getData();\n             // 设置 redis 数据\n             Redis::set('rst', json_encode($rst));\n        } else {\n             $rst = json_decode($value);\n        }\n        return $rst;\n    }\n}\n```\nWorkerF\\DB\\Redis 类还提供了一个 command 方法，用来发送 redis 命令：\n```php\n$values = Redis::command('get', 'rst');\n$values = Redis::command('set', ['rst', json_encode($rst)]);\n```\n### pipeline\n\npredis 提供了 pipeline 流水线模式，可以减少向 redis 发送大量命令时的网络请求延迟问题。WorkerF\\DB\\Redis 类直接调用了 predis 的 pipeline 方法：\n```php\nRedis::pipeline(function ($pipe) {\n    for ($i = 0; $i < 1000; $i++) {\n        $pipe->set(\"key:$i\", $i);\n    }\n});\n```\n\n### 发布与订阅\n\n同样，Redis 类提供了发布和订阅 (publish / subscribe) 功能：\n\n```php\n// subscribe\nRedis::subscribe('test-channel', function($msg) {\n    echo $msg;\n});\n// publish\nRedis::publish('test-channel', json_encode(['foo' => 'bar']));\n```\n\n> 注：subscribe 方法会阻塞进程，所以不要在框架加载后使用。你可以在 WorkerStart.php 中的 onWorkerStart 回调中选取一个进程来单独执行 subscribe。\n> 当然，基于 workerman 的环境，你可以使用更多 socket 相关方法来处理发布、订阅的业务，没必要非用 redis 的 publish / subscribe 不可。\n"},"options":{"plugins_host":null,"context":"website","base":"./","features":["search","internal_link"]},"style":""}</script><script type="text/javascript">kancloud.bootstrap();</script></body></html>

@@ -1,0 +1,53 @@
+<html><head><meta charSet="utf-8"/><title data-react-helmet="true">控制器 · WorkerA 1.1 文档  · 看云</title><meta data-react-helmet="true" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><link rel="stylesheet" href="asset/website.css"/></head><body><div id="main"><div class="root"><div class="window-container"><div class="window-head"><div class="toolbar"><a class="title" href=".">WorkerA 1.1 文档</a><div class="extra"></div></div></div><div class="progress"><div style="width:52.63157894736842%" class="progress-bar"></div></div><div class="window-body"><div class="sidebar"><div class="sidebar-selector"><div class="item active"><i class="icon content"></i>目录</div><div class="item"><i class="icon search"></i>搜索</div></div><div class="sidebar-body"><div class="catalog-body active"><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="前言.html" class="text">前言</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="版本说明.html" class="text">版本说明</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="旧版本升级.html" class="text">旧版本升级</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架性能.html" class="text">框架性能</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架结构说明.html" class="text">目录结构、程序架构</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="配置、安装.html" class="text">配置、安装</a></li><li class="open"><div class="wholerow"></div><i class="icon caret down"></i><a href="基本使用.html" class="text">基本使用</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="开始.html" class="text">开始</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="路由.html" class="text">路由</a></li><li class="active"><div class="wholerow"></div><i class="icon"></i><a href="控制器.html" class="text">控制器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="中间件.html" class="text">中间件</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="请求.html" class="text">请求</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="响应.html" class="text">响应</a></li></ul></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="异常处理.html" class="text">异常处理</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="数据库.html" class="text">数据库</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="数据库配置.html" class="text">数据库配置</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="查询构造器.html" class="text">查询构造器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="模型.html" class="text">模型</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="Redis.html" class="text">Redis</a></li></ul></li></ul></div><div class="search-body"><div class="search-form"><form class="ui form"><div class="ui small fluid icon input"><input type="text" placeholder="请输入搜索关键词..."/><i class="search icon"></i></div></form></div><div class="search-result"><div class="blankslate"><i class="icon search"></i><p>暂无相关搜索结果！</p></div></div></div></div><div class="sidebar-copyright">本文档使用 <a href="http://www.kancloud.cn" target="_blank">看云</a> 构建</div></div><div class="workspace"><div class="article-wrap"><div class="article"><div class="article-head"><div class="left floated tools"><a class="item icon"><i class="icon align justify"></i></a></div><div class="right floated tools"></div><h1>控制器</h1></div><div class="article-body"><p>目录</p>
+<div class="markdown-toc"><ul><ul><li><a href="#_4">新建控制器</a></li><li><a href="#_27">依赖注入</a></li><ul><li><a href="#_38">需要注意的一点：</a></li></ul><li><a href="#_57">方法的返回值</a></li><ul><li><a href="#_59">数组、对象</a></li><li><a href="#_63">字符串</a></li><li><a href="#_67">闭包</a></li></ul></ul></ul></div><h2 data-line="4" class="line"><a id="_4"></a>新建控制器</h2>
+<p>你可以在 app/Controller 目录或其子目录中新建控制器，一个控制器的代码实例如下所示：</p>
+<pre><code class="language-php">namespace App\Controller;  // 声明控制器的命名空间 (遵循 PSR-4 规范) 
+use App\Controller\Controller;  // 引入 base Controller，所有控制器应继承 base Controller
+
+// 引入所需类
+use WorkerF\Http\Requests;
+use App\Models\Test;
+
+class TestController extends Controller
+{
+	// 进行依赖注入，控制器执行时会自动注入这些类到方法中
+    public function test(Test $test, Requests $request)
+    {
+        $rst = $test-&gt;getData();
+
+        return $rst;
+    }
+}
+</code></pre>
+<h2 data-line="27" class="line"><a id="_27"></a>依赖注入</h2>
+<p>WorkerA 使用了 IOC 容器进行控制器类实例的获取和控制器实例方法的执行，所以控制器中所有的方法都支持依赖注入，大大提高了框架的可扩展性和灵活性：</p>
+<pre><code class="language-php">// 自动注入 Requests 实例
+public function test(Requests $request)
+{
+    return $request-&gt;post();
+}
+</code></pre>
+<h3 data-line="38" class="line"><a id="_38"></a>需要注意的一点：</h3>
+<p>当该方法被配置到动态路由时，依赖注入的参数总是在动态路由传来的参数前面。<br/>
+例如：</p>
+<pre><code class="language-php">// 正确
+public function test(Requests $request, $id)
+{
+    return $id;
+}
+
+// 错误
+public function test($id, Requests $request)
+{
+    return $id;
+}
+</code></pre>
+<h2 data-line="57" class="line"><a id="_57"></a>方法的返回值</h2>
+<h3 data-line="59" class="line"><a id="_59"></a>数组、对象</h3>
+<p>当方法返回数组、对象时，框架会将返回值编码为 json 数据作为 HTTP 响应主体返回给用户。</p>
+<h3 data-line="63" class="line"><a id="_63"></a>字符串</h3>
+<p>当方法返回字符串时，框架会原封不动的将字符串作为 HTTP 响应主体返回给用户。</p>
+<h3 data-line="67" class="line"><a id="_67"></a>闭包</h3>
+<p>返回闭包时框架会在构建 HTTP Response 时执行闭包。默认以空字符串作为 HTTP 响应主体返回给用户。</p>
+<p>重定向方法 Route::redirect() 和 Response::redirect() 的返回值就是闭包，详情请阅读 <a href="https://github.com/wazsmwazsm/WorkerF" target="_blank">WorkerF</a> 的源码。</p>
+ </div><div class="article-navigation"><span class="prev">上一篇：<a href="路由.html">路由</a></span><span class="next">下一篇：<a href="中间件.html">中间件</a></span></div></div></div></div></div></div></div></div><script src="asset/website.js"></script><script src="asset/plugins/highlight/index.js"></script><script type="application/payload+json">{"config":{"plugins":["highlight"],"price":0,"name":"wazsmwazsm/workera","sha":"0394c7aad780584659700053d4efaba1f4d43a76","title":"WorkerA 1.1 文档","id":70629},"catalog":[{"id":"前言.html","name":"前言.md","title":"前言","depth":1},{"id":"版本说明.html","name":"版本说明.md","title":"版本说明","depth":1},{"id":"旧版本升级.html","name":"旧版本升级.md","title":"旧版本升级","depth":1},{"id":"框架性能.html","name":"框架性能.md","title":"框架性能","depth":1},{"id":"框架结构说明.html","name":"框架结构说明.md","title":"目录结构、程序架构","depth":1},{"id":"配置、安装.html","name":"配置、安装.md","title":"配置、安装","depth":1},{"id":"基本使用.html","name":"基本使用.md","title":"基本使用","depth":1,"children":[{"id":"开始.html","name":"开始.md","title":"开始","depth":2},{"id":"路由.html","name":"路由.md","title":"路由","depth":2},{"id":"控制器.html","name":"控制器.md","title":"控制器","depth":2},{"id":"中间件.html","name":"中间件.md","title":"中间件","depth":2},{"id":"请求.html","name":"请求.md","title":"请求","depth":2},{"id":"响应.html","name":"响应.md","title":"响应","depth":2}]},{"id":"异常处理.html","name":"异常处理.md","title":"异常处理","depth":1},{"id":"数据库.html","name":"数据库.md","title":"数据库","depth":1,"children":[{"id":"数据库配置.html","name":"数据库配置.md","title":"数据库配置","depth":2},{"id":"查询构造器.html","name":"查询构造器.md","title":"查询构造器","depth":2},{"id":"模型.html","name":"模型.md","title":"模型","depth":2},{"id":"Redis.html","name":"Redis.md","title":"Redis","depth":2}]}],"article":{"id":"控制器.html","name":"控制器.md","title":"控制器","content":"目录\n\n[TOC]\n\n## 新建控制器\n\n你可以在 app/Controller 目录或其子目录中新建控制器，一个控制器的代码实例如下所示：\n```php\nnamespace App\\Controller;  // 声明控制器的命名空间 (遵循 PSR-4 规范) \nuse App\\Controller\\Controller;  // 引入 base Controller，所有控制器应继承 base Controller\n\n// 引入所需类\nuse WorkerF\\Http\\Requests;\nuse App\\Models\\Test;\n\nclass TestController extends Controller\n{\n\t// 进行依赖注入，控制器执行时会自动注入这些类到方法中\n    public function test(Test $test, Requests $request)\n    {\n        $rst = $test->getData();\n\n        return $rst;\n    }\n}\n```\n\n## 依赖注入\n\nWorkerA 使用了 IOC 容器进行控制器类实例的获取和控制器实例方法的执行，所以控制器中所有的方法都支持依赖注入，大大提高了框架的可扩展性和灵活性：\n\n```php\n// 自动注入 Requests 实例\npublic function test(Requests $request)\n{\n    return $request->post();\n}\n```\n### 需要注意的一点：\n\n当该方法被配置到动态路由时，依赖注入的参数总是在动态路由传来的参数前面。\n例如：\n```php\n// 正确\npublic function test(Requests $request, $id)\n{\n    return $id;\n}\n\n// 错误\npublic function test($id, Requests $request)\n{\n    return $id;\n}\n```\n\n\n## 方法的返回值\n\n### 数组、对象\n\n当方法返回数组、对象时，框架会将返回值编码为 json 数据作为 HTTP 响应主体返回给用户。\n\n### 字符串\n\n当方法返回字符串时，框架会原封不动的将字符串作为 HTTP 响应主体返回给用户。\n\n### 闭包\n\n返回闭包时框架会在构建 HTTP Response 时执行闭包。默认以空字符串作为 HTTP 响应主体返回给用户。\n\n重定向方法 Route::redirect() 和 Response::redirect() 的返回值就是闭包，详情请阅读 [WorkerF](https://github.com/wazsmwazsm/WorkerF) 的源码。\n\n"},"options":{"plugins_host":null,"context":"website","base":"./","features":["search","internal_link"]},"style":""}</script><script type="text/javascript">kancloud.bootstrap();</script></body></html>

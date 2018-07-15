@@ -1,0 +1,82 @@
+<html><head><meta charSet="utf-8"/><title data-react-helmet="true">目录结构、程序架构 · WorkerA 1.1 文档  · 看云</title><meta data-react-helmet="true" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><link rel="stylesheet" href="asset/website.css"/></head><body><div id="main"><div class="root"><div class="window-container"><div class="window-head"><div class="toolbar"><a class="title" href=".">WorkerA 1.1 文档</a><div class="extra"></div></div></div><div class="progress"><div style="width:26.31578947368421%" class="progress-bar"></div></div><div class="window-body"><div class="sidebar"><div class="sidebar-selector"><div class="item active"><i class="icon content"></i>目录</div><div class="item"><i class="icon search"></i>搜索</div></div><div class="sidebar-body"><div class="catalog-body active"><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="前言.html" class="text">前言</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="版本说明.html" class="text">版本说明</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="旧版本升级.html" class="text">旧版本升级</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架性能.html" class="text">框架性能</a></li><li class="active"><div class="wholerow"></div><i class="icon"></i><a href="框架结构说明.html" class="text">目录结构、程序架构</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="配置、安装.html" class="text">配置、安装</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="基本使用.html" class="text">基本使用</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="开始.html" class="text">开始</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="路由.html" class="text">路由</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="控制器.html" class="text">控制器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="中间件.html" class="text">中间件</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="请求.html" class="text">请求</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="响应.html" class="text">响应</a></li></ul></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="异常处理.html" class="text">异常处理</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="数据库.html" class="text">数据库</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="数据库配置.html" class="text">数据库配置</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="查询构造器.html" class="text">查询构造器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="模型.html" class="text">模型</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="Redis.html" class="text">Redis</a></li></ul></li></ul></div><div class="search-body"><div class="search-form"><form class="ui form"><div class="ui small fluid icon input"><input type="text" placeholder="请输入搜索关键词..."/><i class="search icon"></i></div></form></div><div class="search-result"><div class="blankslate"><i class="icon search"></i><p>暂无相关搜索结果！</p></div></div></div></div><div class="sidebar-copyright">本文档使用 <a href="http://www.kancloud.cn" target="_blank">看云</a> 构建</div></div><div class="workspace"><div class="article-wrap"><div class="article"><div class="article-head"><div class="left floated tools"><a class="item icon"><i class="icon align justify"></i></a></div><div class="right floated tools"></div><h1>目录结构、程序架构</h1></div><div class="article-body"><p>目录</p>
+<div class="markdown-toc"><ul><ul><li><a href="#_6">目录结构</a></li><ul><li><a href="#WorkerA_8">WorkerA</a></li><li><a href="#WorkerF_34">WorkerF</a></li></ul><li><a href="#_71">框架运行流程</a></li><ul><li><a href="#_75">框架的启动流程</a></li><li><a href="#_89">请求处理流程</a></li><li><a href="#_99">路由分发</a></li></ul></ul></ul></div><h2 data-line="6" class="line"><a id="_6"></a>目录结构</h2>
+<h3 data-line="8" class="line"><a id="WorkerA_8"></a>WorkerA</h3>
+<pre><code class="language-bash">WorkeA                      	     // WorkeA
+    ├── app                          // 应用部分
+    │   ├── Controller               // 在这里创建你的控制器
+    │   │   └── Controller.php       // 控制器基类
+    │   ├── Exceptions               // 异常处理，这里可以自定义异常
+    │   │   └── Handler.php          // 异常 Handler 
+    │   ├── Middleware               // 在这里创建你的中间件
+    │   │   └── AppMiddleware.php    // 默认中间件
+    │   └── Models                   // 在这里创建你的模型
+    │   │   └── Model.php            // 模型基类
+    ├── bootstarp                    // 初始化引导
+    │   └── boot.php                 // 初始化
+    ├── config                       // 配置
+    │   ├── app.php                  // 应用配置
+    │   ├── database.php             // 数据库配置
+    │   └── middleware.php           // 中间件配置
+    ├── routes                       // 在这里创建你的路由
+    │   └── app.php                  // 默认路由
+	├── tmp                          // 临时文件目录，你可以放一些临时文件如上传的文件等
+    │   └── log		                 // 这目录会保存日志文件
+    ├── WorkerStart.php              // 启动脚本
+    └── HttpsStart.php               // https 启动脚本
+</code></pre>
+<h3 data-line="34" class="line"><a id="WorkerF_34"></a>WorkerF</h3>
+<pre><code class="language-bash">WorkeF                      	               // WorkeF
+    ├── DB                                     // 数据库模块
+    │   ├── Drivers                            // 数据库驱动
+    │   │   ├── ConnectorInterface.php         // 驱动的接口
+    │   │   ├── PDODriver.php                  // PDO 驱动基类
+    │   │   ├── Mysql.php                      // Mysql 驱动
+    │   │   ├── Pgsql.php                      // PostgreSql 驱动
+    │   │   └── Sqlite.php                     // Sqlite 驱动
+    │   ├── ConnectException.php               // 自定义连接异常
+    │   ├── DB.php                             // 查询构造器门面
+    │   ├── Model.php                          // 模型类
+    │   └── Redis.php                          // redis 类
+    ├── Exceptions                             // 异常处理
+    │   ├── ExceptionHandler.php               // 默认异常 Handler
+    │   └── ExceptionHandlerInterface.php      // 异常 Handler 接口
+    ├── Http                                   // Http 模块
+    │   ├── Controller.php                     // 控制器类
+    │   ├── File.php                           // 文件类
+    │   ├── Middleware.php                     // 中间件类
+    │   ├── MiddlewareInterface.php            // 中间件接口
+    │   ├── Requests.php                       // 请求类
+    │   ├── Response.php                       // 响应类
+    │   └── Route.php                          // 路由类
+    ├── Tool                                   // 工具
+    │   ├── DotArr.php                         // 点式路径的存取工具
+    │   └── Pipeline.php                       // 管道模式工具
+	├── WorkerSocket                           // workerman 对接部分
+    │   └── WorkerHttp.php		               // workerman http 封装部分
+    ├── App.php                                // 启动类
+    ├── Config.php                             // 配置类
+    ├── Error.php                              // 错误处理类
+    └── IOCContainer.php                       // IOC 容器类
+</code></pre>
+<h2 data-line="71" class="line"><a id="_71"></a>框架运行流程</h2>
+<p>WorkerA 是一个轻量的框架，其运行流程并不复杂。</p>
+<h3 data-line="75" class="line"><a id="_75"></a>框架的启动流程</h3>
+<p>运行 sudo php WorkerStart.php start 后会做几件事：</p>
+<p>1、加载引导</p>
+<p>引导文件 bootstrap/boot.php 会被加载。这个文件会加载所有的 config 和 routes 到内存，同时设置时区、默认 ExceptionHandler 等。</p>
+<p>2、初始化</p>
+<p>首先框架会初始化 workerman 的端口监听、进程数、日志路径等。然后在 onWorkerStart 回调中运行 WorkerF\App::init() 进行框架的初始化，包括了注册单例 (config/app/php 中配置 registers)、初始化数据库连接等。</p>
+<p>3、注册 onMessage 回调，每当有 HTTP 请求时，回调会调用 WorkerF\App::run($con) 方法。</p>
+<h3 data-line="89" class="line"><a id="_89"></a>请求处理流程</h3>
+<p>每当有 HTTP 请求时，WorkerF\App::run($con) 方法会被执行。</p>
+<p>首先判断该请求是否通过全局中间件 (如果设置了的话)，通过则交给路由进行路由分发、返回分发结果，否则直接返回中间件处理后的响应。</p>
+<p>如果业务逻辑在运行中抛出了异常，框架会判断用户是否设置了 ExceptionHandler 来决定选择哪个 Handler 去处理异常返回结果。</p>
+<p>详细代码参见 <a href="https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/App.php" target="_blank">WorkerF\App</a>。</p>
+<h3 data-line="99" class="line"><a id="_99"></a>路由分发</h3>
+<p>路由的分发通过 WorkerF\Http\Route::dispatch($request) 方法来执行。</p>
+<p>首先，路由分发时会判断该请求的 path 是否存在于路由列表中。如果该路由是动态路由，还会检测该路由是否存在于路由缓存。</p>
+<p>然后检查该请求是否通过路由中间件 (如果设置了的话)。</p>
+<p>如果中间件检查未通过，则返回中间件处理后的结果。</p>
+<p>如果检查通过，根据路由的设置执行闭包，或者通过 IOC 容器来执行控制器方法 (进行自动依赖注入等操作)。</p>
+<p>详细代码参见 <a href="https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/Http/Route.php" target="_blank">WorkerF\Http\Route</a>。</p>
+ </div><div class="article-navigation"><span class="prev">上一篇：<a href="框架性能.html">框架性能</a></span><span class="next">下一篇：<a href="配置、安装.html">配置、安装</a></span></div></div></div></div></div></div></div></div><script src="asset/website.js"></script><script src="asset/plugins/highlight/index.js"></script><script type="application/payload+json">{"config":{"plugins":["highlight"],"price":0,"name":"wazsmwazsm/workera","sha":"0394c7aad780584659700053d4efaba1f4d43a76","title":"WorkerA 1.1 文档","id":70629},"catalog":[{"id":"前言.html","name":"前言.md","title":"前言","depth":1},{"id":"版本说明.html","name":"版本说明.md","title":"版本说明","depth":1},{"id":"旧版本升级.html","name":"旧版本升级.md","title":"旧版本升级","depth":1},{"id":"框架性能.html","name":"框架性能.md","title":"框架性能","depth":1},{"id":"框架结构说明.html","name":"框架结构说明.md","title":"目录结构、程序架构","depth":1},{"id":"配置、安装.html","name":"配置、安装.md","title":"配置、安装","depth":1},{"id":"基本使用.html","name":"基本使用.md","title":"基本使用","depth":1,"children":[{"id":"开始.html","name":"开始.md","title":"开始","depth":2},{"id":"路由.html","name":"路由.md","title":"路由","depth":2},{"id":"控制器.html","name":"控制器.md","title":"控制器","depth":2},{"id":"中间件.html","name":"中间件.md","title":"中间件","depth":2},{"id":"请求.html","name":"请求.md","title":"请求","depth":2},{"id":"响应.html","name":"响应.md","title":"响应","depth":2}]},{"id":"异常处理.html","name":"异常处理.md","title":"异常处理","depth":1},{"id":"数据库.html","name":"数据库.md","title":"数据库","depth":1,"children":[{"id":"数据库配置.html","name":"数据库配置.md","title":"数据库配置","depth":2},{"id":"查询构造器.html","name":"查询构造器.md","title":"查询构造器","depth":2},{"id":"模型.html","name":"模型.md","title":"模型","depth":2},{"id":"Redis.html","name":"Redis.md","title":"Redis","depth":2}]}],"article":{"id":"框架结构说明.html","name":"框架结构说明.md","title":"目录结构、程序架构","content":"目录\n\n\n[TOC]\n\n\n## 目录结构\n\n### WorkerA\n```bash\nWorkeA                      \t     // WorkeA\n    ├── app                          // 应用部分\n    │   ├── Controller               // 在这里创建你的控制器\n    │   │   └── Controller.php       // 控制器基类\n    │   ├── Exceptions               // 异常处理，这里可以自定义异常\n    │   │   └── Handler.php          // 异常 Handler \n    │   ├── Middleware               // 在这里创建你的中间件\n    │   │   └── AppMiddleware.php    // 默认中间件\n    │   └── Models                   // 在这里创建你的模型\n    │   │   └── Model.php            // 模型基类\n    ├── bootstarp                    // 初始化引导\n    │   └── boot.php                 // 初始化\n    ├── config                       // 配置\n    │   ├── app.php                  // 应用配置\n    │   ├── database.php             // 数据库配置\n    │   └── middleware.php           // 中间件配置\n    ├── routes                       // 在这里创建你的路由\n    │   └── app.php                  // 默认路由\n\t├── tmp                          // 临时文件目录，你可以放一些临时文件如上传的文件等\n    │   └── log\t\t                 // 这目录会保存日志文件\n    ├── WorkerStart.php              // 启动脚本\n    └── HttpsStart.php               // https 启动脚本\n```\n\n### WorkerF\n```bash\nWorkeF                      \t               // WorkeF\n    ├── DB                                     // 数据库模块\n    │   ├── Drivers                            // 数据库驱动\n    │   │   ├── ConnectorInterface.php         // 驱动的接口\n    │   │   ├── PDODriver.php                  // PDO 驱动基类\n    │   │   ├── Mysql.php                      // Mysql 驱动\n    │   │   ├── Pgsql.php                      // PostgreSql 驱动\n    │   │   └── Sqlite.php                     // Sqlite 驱动\n    │   ├── ConnectException.php               // 自定义连接异常\n    │   ├── DB.php                             // 查询构造器门面\n    │   ├── Model.php                          // 模型类\n    │   └── Redis.php                          // redis 类\n    ├── Exceptions                             // 异常处理\n    │   ├── ExceptionHandler.php               // 默认异常 Handler\n    │   └── ExceptionHandlerInterface.php      // 异常 Handler 接口\n    ├── Http                                   // Http 模块\n    │   ├── Controller.php                     // 控制器类\n    │   ├── File.php                           // 文件类\n    │   ├── Middleware.php                     // 中间件类\n    │   ├── MiddlewareInterface.php            // 中间件接口\n    │   ├── Requests.php                       // 请求类\n    │   ├── Response.php                       // 响应类\n    │   └── Route.php                          // 路由类\n    ├── Tool                                   // 工具\n    │   ├── DotArr.php                         // 点式路径的存取工具\n    │   └── Pipeline.php                       // 管道模式工具\n\t├── WorkerSocket                           // workerman 对接部分\n    │   └── WorkerHttp.php\t\t               // workerman http 封装部分\n    ├── App.php                                // 启动类\n    ├── Config.php                             // 配置类\n    ├── Error.php                              // 错误处理类\n    └── IOCContainer.php                       // IOC 容器类\n```\n\n\n## 框架运行流程\n\nWorkerA 是一个轻量的框架，其运行流程并不复杂。\n\n### 框架的启动流程\n\n运行 sudo php WorkerStart.php start 后会做几件事：\n\n1、加载引导\n\n引导文件 bootstrap/boot.php 会被加载。这个文件会加载所有的 config 和 routes 到内存，同时设置时区、默认 ExceptionHandler 等。 \n\n2、初始化\n\n首先框架会初始化 workerman 的端口监听、进程数、日志路径等。然后在 onWorkerStart 回调中运行 WorkerF\\App::init() 进行框架的初始化，包括了注册单例 (config/app/php 中配置 registers)、初始化数据库连接等。\n\n3、注册 onMessage 回调，每当有 HTTP 请求时，回调会调用 WorkerF\\App::run($con) 方法。\n\n### 请求处理流程\n\n每当有 HTTP 请求时，WorkerF\\App::run($con) 方法会被执行。\n\n首先判断该请求是否通过全局中间件 (如果设置了的话)，通过则交给路由进行路由分发、返回分发结果，否则直接返回中间件处理后的响应。\n\n如果业务逻辑在运行中抛出了异常，框架会判断用户是否设置了 ExceptionHandler 来决定选择哪个 Handler 去处理异常返回结果。\n\n详细代码参见 [WorkerF\\App](https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/App.php)。\n\n### 路由分发\n\n路由的分发通过 WorkerF\\Http\\Route::dispatch($request) 方法来执行。\n\n首先，路由分发时会判断该请求的 path 是否存在于路由列表中。如果该路由是动态路由，还会检测该路由是否存在于路由缓存。\n\n然后检查该请求是否通过路由中间件 (如果设置了的话)。\n\n如果中间件检查未通过，则返回中间件处理后的结果。\n\n如果检查通过，根据路由的设置执行闭包，或者通过 IOC 容器来执行控制器方法 (进行自动依赖注入等操作)。\n\n详细代码参见 [WorkerF\\Http\\Route](https://github.com/wazsmwazsm/WorkerF/blob/master/src/WorkerF/Http/Route.php)。"},"options":{"plugins_host":null,"context":"website","base":"./","features":["search","internal_link"]},"style":""}</script><script type="text/javascript">kancloud.bootstrap();</script></body></html>

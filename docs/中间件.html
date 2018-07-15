@@ -1,0 +1,94 @@
+<html><head><meta charSet="utf-8"/><title data-react-helmet="true">中间件 · WorkerA 1.1 文档  · 看云</title><meta data-react-helmet="true" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><link rel="stylesheet" href="asset/website.css"/></head><body><div id="main"><div class="root"><div class="window-container"><div class="window-head"><div class="toolbar"><a class="title" href=".">WorkerA 1.1 文档</a><div class="extra"></div></div></div><div class="progress"><div style="width:57.89473684210527%" class="progress-bar"></div></div><div class="window-body"><div class="sidebar"><div class="sidebar-selector"><div class="item active"><i class="icon content"></i>目录</div><div class="item"><i class="icon search"></i>搜索</div></div><div class="sidebar-body"><div class="catalog-body active"><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="前言.html" class="text">前言</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="版本说明.html" class="text">版本说明</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="旧版本升级.html" class="text">旧版本升级</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架性能.html" class="text">框架性能</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架结构说明.html" class="text">目录结构、程序架构</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="配置、安装.html" class="text">配置、安装</a></li><li class="open"><div class="wholerow"></div><i class="icon caret down"></i><a href="基本使用.html" class="text">基本使用</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="开始.html" class="text">开始</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="路由.html" class="text">路由</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="控制器.html" class="text">控制器</a></li><li class="active"><div class="wholerow"></div><i class="icon"></i><a href="中间件.html" class="text">中间件</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="请求.html" class="text">请求</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="响应.html" class="text">响应</a></li></ul></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="异常处理.html" class="text">异常处理</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="数据库.html" class="text">数据库</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="数据库配置.html" class="text">数据库配置</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="查询构造器.html" class="text">查询构造器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="模型.html" class="text">模型</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="Redis.html" class="text">Redis</a></li></ul></li></ul></div><div class="search-body"><div class="search-form"><form class="ui form"><div class="ui small fluid icon input"><input type="text" placeholder="请输入搜索关键词..."/><i class="search icon"></i></div></form></div><div class="search-result"><div class="blankslate"><i class="icon search"></i><p>暂无相关搜索结果！</p></div></div></div></div><div class="sidebar-copyright">本文档使用 <a href="http://www.kancloud.cn" target="_blank">看云</a> 构建</div></div><div class="workspace"><div class="article-wrap"><div class="article"><div class="article-head"><div class="left floated tools"><a class="item icon"><i class="icon align justify"></i></a></div><div class="right floated tools"></div><h1>中间件</h1></div><div class="article-body"><p>目录</p>
+<div class="markdown-toc"><ul><ul><li><a href="#_6">新建中间件</a></li><ul><li><a href="#_31">中间件通过</a></li><li><a href="#_43">中间件停止</a></li><li><a href="#_56">实例</a></li></ul><li><a href="#_79">注册中间件</a></li><ul><li><a href="#_83">全局中间件</a></li><li><a href="#_99">路由中间件</a></li></ul></ul></ul></div><p>HTTP 中间件提供了一个方便的机制来过滤进入应用程序的 HTTP 请求。例如对请求进行身份认证，对请求的数据进行分析筛选。</p>
+<h2 data-line="6" class="line"><a id="_6"></a>新建中间件</h2>
+<p>你可以在 app/Middleware 目录或其子目录中新建中间件，一个中间件的代码实例如下所示：</p>
+<pre><code class="language-php">&lt;?php
+
+namespace App\Middleware;
+
+use WorkerF\Http\MiddlewareInterface;
+use WorkerF\Http\Requests;
+
+// 必须实现 MiddlewareInterface 接口
+class AppMiddleware implements MiddlewareInterface
+{
+    // 实现 MiddlewareInterface 规定的 handle 方法
+    public function handle(Requests $request)
+    {
+        return $request;
+    }
+}
+</code></pre>
+<p>中间件必须实现 WorkerF\Http\MiddlewareInterface 接口，实现接口规定的 handle 方法。</p>
+<h3 data-line="31" class="line"><a id="_31"></a>中间件通过</h3>
+<p>如果请求通过验证，则返回请求对象以继续程序执行。</p>
+<pre><code>public function handle(Requests $request)
+{
+	// 验证操作...
+    // 通过验证
+    return $request;
+}
+</code></pre>
+<h3 data-line="43" class="line"><a id="_43"></a>中间件停止</h3>
+<p>如果请求未通过验证，返回一个闭包阻止程序继续执行。</p>
+<pre><code>public function handle(Requests $request)
+{
+	// 验证操作...
+    // 验证失败
+    return function() {
+    	return &#x27;Invalid request!&#x27;;
+    };
+}
+</code></pre>
+<h3 data-line="56" class="line"><a id="_56"></a>实例</h3>
+<pre><code class="language-php">&lt;?php
+
+namespace App\Middleware;
+
+use WorkerF\Http\MiddlewareInterface;
+use WorkerF\Http\Requests;
+use WorkerF\Http\Route;
+
+class AppMiddleware implements MiddlewareInterface
+{
+    public function handle(Requests $request)
+    {
+    	if ($request-&gt;age &lt; 18) {
+        	// 验证失败，重定向路由到其它页面
+    		return Route::redirect(&#x27;/notAllow&#x27;); // Route::redirect() 方法返回一个闭包
+    	}
+        return $request;
+    }
+}
+</code></pre>
+<h2 data-line="79" class="line"><a id="_79"></a>注册中间件</h2>
+<p>使用中间件之前需要注册你新建的中间件，你可以在配置文件 config/middleware.php 中注册你的中间件。</p>
+<h3 data-line="83" class="line"><a id="_83"></a>全局中间件</h3>
+<p>全局中间件会在每一个请求中执行。</p>
+<p>config/middleware.php 中：</p>
+<pre><code class="language-php">// ...
+&#x27;global&#x27; =&gt; [
+	// 在这里注册全局中间件
+    App\Middleware\AppMiddleware::class,
+],
+// ...
+</code></pre>
+<p>你可以注册多个中间件，它们会按照顺序依次执行。</p>
+<h3 data-line="99" class="line"><a id="_99"></a>路由中间件</h3>
+<p>路由中间件会在访问设置该中间件的路由时执行。</p>
+<p>config/middleware.php 中：</p>
+<pre><code class="language-php">// ...
+&#x27;route&#x27; =&gt; [
+    &#x27;auth&#x27; =&gt; App\Middleware\AuthMiddleware::class, 
+    &#x27;jwt&#x27;  =&gt; App\Middleware\JwtMiddleware::class,
+],
+// ...
+</code></pre>
+<p>然后在路由中：</p>
+<pre><code class="language-php">Route::group([&#x27;middleware&#x27;, =&gt; &#x27;auth&#x27;], function() {
+	Route::get(&#x27;user&#x27;, TestController@user);
+});
+
+</code></pre>
+<p>你可以注册多个路由中间件，它们会按照 Route 分组从外到内依次执行。</p>
+ </div><div class="article-navigation"><span class="prev">上一篇：<a href="控制器.html">控制器</a></span><span class="next">下一篇：<a href="请求.html">请求</a></span></div></div></div></div></div></div></div></div><script src="asset/website.js"></script><script src="asset/plugins/highlight/index.js"></script><script type="application/payload+json">{"config":{"plugins":["highlight"],"price":0,"name":"wazsmwazsm/workera","sha":"0394c7aad780584659700053d4efaba1f4d43a76","title":"WorkerA 1.1 文档","id":70629},"catalog":[{"id":"前言.html","name":"前言.md","title":"前言","depth":1},{"id":"版本说明.html","name":"版本说明.md","title":"版本说明","depth":1},{"id":"旧版本升级.html","name":"旧版本升级.md","title":"旧版本升级","depth":1},{"id":"框架性能.html","name":"框架性能.md","title":"框架性能","depth":1},{"id":"框架结构说明.html","name":"框架结构说明.md","title":"目录结构、程序架构","depth":1},{"id":"配置、安装.html","name":"配置、安装.md","title":"配置、安装","depth":1},{"id":"基本使用.html","name":"基本使用.md","title":"基本使用","depth":1,"children":[{"id":"开始.html","name":"开始.md","title":"开始","depth":2},{"id":"路由.html","name":"路由.md","title":"路由","depth":2},{"id":"控制器.html","name":"控制器.md","title":"控制器","depth":2},{"id":"中间件.html","name":"中间件.md","title":"中间件","depth":2},{"id":"请求.html","name":"请求.md","title":"请求","depth":2},{"id":"响应.html","name":"响应.md","title":"响应","depth":2}]},{"id":"异常处理.html","name":"异常处理.md","title":"异常处理","depth":1},{"id":"数据库.html","name":"数据库.md","title":"数据库","depth":1,"children":[{"id":"数据库配置.html","name":"数据库配置.md","title":"数据库配置","depth":2},{"id":"查询构造器.html","name":"查询构造器.md","title":"查询构造器","depth":2},{"id":"模型.html","name":"模型.md","title":"模型","depth":2},{"id":"Redis.html","name":"Redis.md","title":"Redis","depth":2}]}],"article":{"id":"中间件.html","name":"中间件.md","title":"中间件","content":"目录\n\n[TOC]\n\nHTTP 中间件提供了一个方便的机制来过滤进入应用程序的 HTTP 请求。例如对请求进行身份认证，对请求的数据进行分析筛选。\n\n## 新建中间件\n\n你可以在 app/Middleware 目录或其子目录中新建中间件，一个中间件的代码实例如下所示：\n\n```php\n<?php\n\nnamespace App\\Middleware;\n\nuse WorkerF\\Http\\MiddlewareInterface;\nuse WorkerF\\Http\\Requests;\n\n// 必须实现 MiddlewareInterface 接口\nclass AppMiddleware implements MiddlewareInterface\n{\n    // 实现 MiddlewareInterface 规定的 handle 方法\n    public function handle(Requests $request)\n    {\n        return $request;\n    }\n}\n```\n\n中间件必须实现 WorkerF\\Http\\MiddlewareInterface 接口，实现接口规定的 handle 方法。\n\n### 中间件通过\n\n如果请求通过验证，则返回请求对象以继续程序执行。\n\n```\npublic function handle(Requests $request)\n{\n\t// 验证操作...\n    // 通过验证\n    return $request;\n}\n```\n### 中间件停止\n如果请求未通过验证，返回一个闭包阻止程序继续执行。\n```\npublic function handle(Requests $request)\n{\n\t// 验证操作...\n    // 验证失败\n    return function() {\n    \treturn 'Invalid request!';\n    };\n}\n```\n\n### 实例\n```php\n<?php\n\nnamespace App\\Middleware;\n\nuse WorkerF\\Http\\MiddlewareInterface;\nuse WorkerF\\Http\\Requests;\nuse WorkerF\\Http\\Route;\n\nclass AppMiddleware implements MiddlewareInterface\n{\n    public function handle(Requests $request)\n    {\n    \tif ($request->age < 18) {\n        \t// 验证失败，重定向路由到其它页面\n    \t\treturn Route::redirect('/notAllow'); // Route::redirect() 方法返回一个闭包\n    \t}\n        return $request;\n    }\n}\n```\n\n## 注册中间件\n\n使用中间件之前需要注册你新建的中间件，你可以在配置文件 config/middleware.php 中注册你的中间件。\n\n### 全局中间件\n\n全局中间件会在每一个请求中执行。\n\nconfig/middleware.php 中：\n```php\n// ...\n'global' => [\n\t// 在这里注册全局中间件\n    App\\Middleware\\AppMiddleware::class,\n],\n// ...\n```\n\n你可以注册多个中间件，它们会按照顺序依次执行。\n\n### 路由中间件\n\n路由中间件会在访问设置该中间件的路由时执行。\n\nconfig/middleware.php 中：\n```php\n// ...\n'route' => [\n    'auth' => App\\Middleware\\AuthMiddleware::class, \n    'jwt'  => App\\Middleware\\JwtMiddleware::class,\n],\n// ...\n```\n\n然后在路由中：\n\n```php\nRoute::group(['middleware', => 'auth'], function() {\n\tRoute::get('user', TestController@user);\n});\n\n```\n\n你可以注册多个路由中间件，它们会按照 Route 分组从外到内依次执行。"},"options":{"plugins_host":null,"context":"website","base":"./","features":["search","internal_link"]},"style":""}</script><script type="text/javascript">kancloud.bootstrap();</script></body></html>

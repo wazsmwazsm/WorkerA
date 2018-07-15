@@ -1,0 +1,71 @@
+<html><head><meta charSet="utf-8"/><title data-react-helmet="true">数据库配置 · WorkerA 1.1 文档  · 看云</title><meta data-react-helmet="true" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/><link rel="stylesheet" href="asset/website.css"/></head><body><div id="main"><div class="root"><div class="window-container"><div class="window-head"><div class="toolbar"><a class="title" href=".">WorkerA 1.1 文档</a><div class="extra"></div></div></div><div class="progress"><div style="width:84.21052631578947%" class="progress-bar"></div></div><div class="window-body"><div class="sidebar"><div class="sidebar-selector"><div class="item active"><i class="icon content"></i>目录</div><div class="item"><i class="icon search"></i>搜索</div></div><div class="sidebar-body"><div class="catalog-body active"><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="前言.html" class="text">前言</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="版本说明.html" class="text">版本说明</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="旧版本升级.html" class="text">旧版本升级</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架性能.html" class="text">框架性能</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="框架结构说明.html" class="text">目录结构、程序架构</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="配置、安装.html" class="text">配置、安装</a></li><li class=""><div class="wholerow"></div><i class="icon caret right"></i><a href="基本使用.html" class="text">基本使用</a><ul><li class=""><div class="wholerow"></div><i class="icon"></i><a href="开始.html" class="text">开始</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="路由.html" class="text">路由</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="控制器.html" class="text">控制器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="中间件.html" class="text">中间件</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="请求.html" class="text">请求</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="响应.html" class="text">响应</a></li></ul></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="异常处理.html" class="text">异常处理</a></li><li class="open"><div class="wholerow"></div><i class="icon caret down"></i><a href="数据库.html" class="text">数据库</a><ul><li class="active"><div class="wholerow"></div><i class="icon"></i><a href="数据库配置.html" class="text">数据库配置</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="查询构造器.html" class="text">查询构造器</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="模型.html" class="text">模型</a></li><li class=""><div class="wholerow"></div><i class="icon"></i><a href="Redis.html" class="text">Redis</a></li></ul></li></ul></div><div class="search-body"><div class="search-form"><form class="ui form"><div class="ui small fluid icon input"><input type="text" placeholder="请输入搜索关键词..."/><i class="search icon"></i></div></form></div><div class="search-result"><div class="blankslate"><i class="icon search"></i><p>暂无相关搜索结果！</p></div></div></div></div><div class="sidebar-copyright">本文档使用 <a href="http://www.kancloud.cn" target="_blank">看云</a> 构建</div></div><div class="workspace"><div class="article-wrap"><div class="article"><div class="article-head"><div class="left floated tools"><a class="item icon"><i class="icon align justify"></i></a></div><div class="right floated tools"></div><h1>数据库配置</h1></div><div class="article-body"><p>目录</p>
+<div class="markdown-toc"><ul><ul><li><a href="#_6">配置连接</a></li><li><a href="#_61">获取连接</a></li></ul></ul></div><p>WorkerA 实现了 mysql、postgresql、sqlite 的数据库驱动，你可以在配置文件中进行数据库连接的配置。</p>
+<h2 data-line="6" class="line"><a id="_6"></a>配置连接</h2>
+<p>你可以在配置文件 config/database.php 中配置数据库连接，每个连接为 ”连接名 =&gt; 连接配置数组“ 的格式。你可以同时配置多个数据库连接，它们会在框架启动时被注册到单例。</p>
+<p>注：由于多进程常驻内存的特性，单例的数据库连接比起传统的 apache、nginx 模型即节省了连接数，也提升了访问速度。</p>
+<p>各个数据库的配置样例，config/database.php：</p>
+<pre><code class="language-php">...
+&#x27;db_con&#x27; =&gt; [
+	// 配置 mysql 
+    &#x27;con1&#x27; =&gt; [ 
+        &#x27;driver&#x27;      =&gt; &#x27;mysql&#x27;,
+        &#x27;host&#x27;        =&gt; &#x27;localhost&#x27;,
+        &#x27;port&#x27;        =&gt; &#x27;3306&#x27;,
+        &#x27;user&#x27;        =&gt; &#x27;username&#x27;,
+        &#x27;password&#x27;    =&gt; &#x27;password&#x27;,
+        &#x27;dbname&#x27;      =&gt; &#x27;database&#x27;,
+        &#x27;charset&#x27;     =&gt; &#x27;utf8&#x27;,
+        &#x27;prefix&#x27;      =&gt; &#x27;&#x27;,
+        &#x27;timezone&#x27;    =&gt; &#x27;+8:00&#x27;,
+        &#x27;collection&#x27;  =&gt; &#x27;utf8_general_ci&#x27;,
+        // &#x27;strict&#x27;      =&gt; false,
+        // &#x27;unix_socket&#x27; =&gt; &#x27;/var/run/mysqld/mysqld.sock&#x27;,
+        // &#x27;options&#x27;     =&gt; [],
+    ],
+    
+	// 配置 postgresql 
+    &#x27;con2&#x27; =&gt; [
+        &#x27;driver&#x27;           =&gt; &#x27;pgsql&#x27;,
+        &#x27;host&#x27;             =&gt; &#x27;localhost&#x27;,
+        &#x27;port&#x27;             =&gt; &#x27;5432&#x27;,
+        &#x27;user&#x27;             =&gt; &#x27;username&#x27;,
+        &#x27;password&#x27;         =&gt; &#x27;password&#x27;,
+        &#x27;dbname&#x27;           =&gt; &#x27;database&#x27;,
+        &#x27;charset&#x27;          =&gt; &#x27;utf8&#x27;,
+        &#x27;timezone&#x27;         =&gt; &#x27;+8:00&#x27;,
+        &#x27;prefix&#x27;           =&gt; &#x27;&#x27;,
+        // &#x27;schema&#x27;           =&gt; &#x27;&#x27;,
+        // &#x27;application_name&#x27; =&gt; &#x27;&#x27;,
+        // &#x27;sslmode&#x27;          =&gt; &#x27;disable&#x27;,
+        // &#x27;options&#x27;          =&gt; [],
+    ],
+	// 配置 sqlite 
+    &#x27;con3&#x27; =&gt; [ 
+        &#x27;driver&#x27;  =&gt; &#x27;sqlite&#x27;,
+        &#x27;dbname&#x27;  =&gt; &#x27;database.db&#x27;,
+        &#x27;prefix&#x27;  =&gt; &#x27;&#x27;,
+        // &#x27;options&#x27; =&gt; [],
+    ],
+],
+
+...
+</code></pre>
+<h2 data-line="61" class="line"><a id="_61"></a>获取连接</h2>
+<p>你可以使用 WorkerF\DB\DB 类的 connection($con_name) 方法获取连接。</p>
+<pre><code class="language-php">
+namespace App\Controller; 
+use App\Controller\Controller;  
+
+use WorkerF\DB\DB;
+
+class TestController extends Controller
+{
+    public function test()
+    {
+		$con = DB::connection(&#x27;con1&#x27;);
+        
+        return $con-&gt;get();
+    }
+}
+</code></pre>
+ </div><div class="article-navigation"><span class="prev">上一篇：<a href="数据库.html">数据库</a></span><span class="next">下一篇：<a href="查询构造器.html">查询构造器</a></span></div></div></div></div></div></div></div></div><script src="asset/website.js"></script><script src="asset/plugins/highlight/index.js"></script><script type="application/payload+json">{"config":{"plugins":["highlight"],"price":0,"name":"wazsmwazsm/workera","sha":"0394c7aad780584659700053d4efaba1f4d43a76","title":"WorkerA 1.1 文档","id":70629},"catalog":[{"id":"前言.html","name":"前言.md","title":"前言","depth":1},{"id":"版本说明.html","name":"版本说明.md","title":"版本说明","depth":1},{"id":"旧版本升级.html","name":"旧版本升级.md","title":"旧版本升级","depth":1},{"id":"框架性能.html","name":"框架性能.md","title":"框架性能","depth":1},{"id":"框架结构说明.html","name":"框架结构说明.md","title":"目录结构、程序架构","depth":1},{"id":"配置、安装.html","name":"配置、安装.md","title":"配置、安装","depth":1},{"id":"基本使用.html","name":"基本使用.md","title":"基本使用","depth":1,"children":[{"id":"开始.html","name":"开始.md","title":"开始","depth":2},{"id":"路由.html","name":"路由.md","title":"路由","depth":2},{"id":"控制器.html","name":"控制器.md","title":"控制器","depth":2},{"id":"中间件.html","name":"中间件.md","title":"中间件","depth":2},{"id":"请求.html","name":"请求.md","title":"请求","depth":2},{"id":"响应.html","name":"响应.md","title":"响应","depth":2}]},{"id":"异常处理.html","name":"异常处理.md","title":"异常处理","depth":1},{"id":"数据库.html","name":"数据库.md","title":"数据库","depth":1,"children":[{"id":"数据库配置.html","name":"数据库配置.md","title":"数据库配置","depth":2},{"id":"查询构造器.html","name":"查询构造器.md","title":"查询构造器","depth":2},{"id":"模型.html","name":"模型.md","title":"模型","depth":2},{"id":"Redis.html","name":"Redis.md","title":"Redis","depth":2}]}],"article":{"id":"数据库配置.html","name":"数据库配置.md","title":"数据库配置","content":"目录\n\n[TOC]\n\nWorkerA 实现了 mysql、postgresql、sqlite 的数据库驱动，你可以在配置文件中进行数据库连接的配置。\n\n## 配置连接\n\n你可以在配置文件 config/database.php 中配置数据库连接，每个连接为 ”连接名 => 连接配置数组“ 的格式。你可以同时配置多个数据库连接，它们会在框架启动时被注册到单例。\n\n注：由于多进程常驻内存的特性，单例的数据库连接比起传统的 apache、nginx 模型即节省了连接数，也提升了访问速度。\n\n各个数据库的配置样例，config/database.php：\n```php\n...\n'db_con' => [\n\t// 配置 mysql \n    'con1' => [ \n        'driver'      => 'mysql',\n        'host'        => 'localhost',\n        'port'        => '3306',\n        'user'        => 'username',\n        'password'    => 'password',\n        'dbname'      => 'database',\n        'charset'     => 'utf8',\n        'prefix'      => '',\n        'timezone'    => '+8:00',\n        'collection'  => 'utf8_general_ci',\n        // 'strict'      => false,\n        // 'unix_socket' => '/var/run/mysqld/mysqld.sock',\n        // 'options'     => [],\n    ],\n    \n\t// 配置 postgresql \n    'con2' => [\n        'driver'           => 'pgsql',\n        'host'             => 'localhost',\n        'port'             => '5432',\n        'user'             => 'username',\n        'password'         => 'password',\n        'dbname'           => 'database',\n        'charset'          => 'utf8',\n        'timezone'         => '+8:00',\n        'prefix'           => '',\n        // 'schema'           => '',\n        // 'application_name' => '',\n        // 'sslmode'          => 'disable',\n        // 'options'          => [],\n    ],\n\t// 配置 sqlite \n    'con3' => [ \n        'driver'  => 'sqlite',\n        'dbname'  => 'database.db',\n        'prefix'  => '',\n        // 'options' => [],\n    ],\n],\n\n...\n```\n\n## 获取连接\n\n你可以使用 WorkerF\\DB\\DB 类的 connection($con_name) 方法获取连接。\n\n```php\n\nnamespace App\\Controller; \nuse App\\Controller\\Controller;  \n\nuse WorkerF\\DB\\DB;\n\nclass TestController extends Controller\n{\n    public function test()\n    {\n\t\t$con = DB::connection('con1');\n        \n        return $con->get();\n    }\n}\n```"},"options":{"plugins_host":null,"context":"website","base":"./","features":["search","internal_link"]},"style":""}</script><script type="text/javascript">kancloud.bootstrap();</script></body></html>
