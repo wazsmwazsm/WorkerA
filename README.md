@@ -1,7 +1,6 @@
 # WorkerA
 
-安装、使用请查看 [文档]([Document](https://www.kancloud.cn/wazsmwazsm/workera/691859)
-  "文档")。
+安装、使用请查看 [文档](https://www.kancloud.cn/wazsmwazsm/workera/691859 "文档")。
 
 ## 是什么
 
