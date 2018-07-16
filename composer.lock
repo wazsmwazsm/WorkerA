@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ad90972cbf626433a87e458a50b900b",
+    "content-hash": "b8b57333d2ef350acd33131f36a38c34",
     "packages": [
         {
             "name": "predis/predis",
@@ -64,16 +64,16 @@
         },
         {
             "name": "wazsmwazsm/workerf",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wazsmwazsm/WorkerF.git",
-                "reference": "4a4ecf1c2cc092ec1b64608dacfa811bf2b4390b"
+                "reference": "7df7496bd86d5d565d8641872bb6d74b5f7d09bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wazsmwazsm/WorkerF/zipball/4a4ecf1c2cc092ec1b64608dacfa811bf2b4390b",
-                "reference": "4a4ecf1c2cc092ec1b64608dacfa811bf2b4390b",
+                "url": "https://api.github.com/repos/wazsmwazsm/WorkerF/zipball/7df7496bd86d5d565d8641872bb6d74b5f7d09bc",
+                "reference": "7df7496bd86d5d565d8641872bb6d74b5f7d09bc",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -85,7 +85,7 @@
             "require": {
                 "ext-pdo": "*",
                 "ext-pdo_mysql": "*",
-                "php": ">=5.4",
+                "php": ">=5.5",
                 "predis/predis": "1.1.*",
                 "workerman/workerman": "3.5.*"
             },
@@ -109,26 +109,26 @@
                     "email": "942443360@qq.com"
                 }
             ],
-            "description": "A http framework for workerman.",
+            "description": "A webAPI framework for workerman.",
             "homepage": "https://github.com/wazsmwazsm/WorkerF",
             "keywords": [
                 "framework",
                 "workerman"
             ],
-            "time": "2018-06-05T12:18:48+00:00"
+            "time": "2018-07-15T11:05:23+00:00"
         },
         {
             "name": "workerman/workerman",
-            "version": "v3.5.11",
+            "version": "v3.5.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "c83e189b5855d91f99a7d01ac58f5bbc7161b5e5"
+                "reference": "cf2538169af989fbba4d55be1bfc8c8d80fa71e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/c83e189b5855d91f99a7d01ac58f5bbc7161b5e5",
-                "reference": "c83e189b5855d91f99a7d01ac58f5bbc7161b5e5",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/cf2538169af989fbba4d55be1bfc8c8d80fa71e9",
+                "reference": "cf2538169af989fbba4d55be1bfc8c8d80fa71e9",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -167,7 +167,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2018-06-07T09:36:14+00:00"
+            "time": "2018-07-16T02:11:10+00:00"
         }
     ],
     "packages-dev": [],
