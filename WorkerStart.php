@@ -1,6 +1,6 @@
 <?php
+require_once __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . '/bootstrap/boot.php';
 use Workerman\Worker;
 use WorkerF\App;
 
@@ -13,6 +13,8 @@ $http_worker->count = 4;
 $http_worker->user = 'www-data';
 
 $http_worker->onWorkerStart = function($http_worker) {
+    // bootstrap
+    require_once __DIR__ . '/bootstrap/boot.php';
     // init app
     App::init();
 };

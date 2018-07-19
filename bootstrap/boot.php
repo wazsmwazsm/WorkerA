@@ -1,9 +1,6 @@
 <?php
-
 use WorkerF\Config;
 use WorkerF\IOCContainer;
-
-require_once __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
