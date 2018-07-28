@@ -1,6 +1,7 @@
 <?php
 use WorkerF\Config;
 use WorkerF\IOCContainer;
+use WorkerF\Http\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,16 @@ date_default_timezone_set(Config::get('app.timezone'));
 |
 */
 require_once __DIR__ . '/../routes/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Set route cache limit
+|--------------------------------------------------------------------------
+|
+| This value should greater than 1
+|
+*/
+Route::setVariableRouteCacheLimit(8192);
 
 /*
 |--------------------------------------------------------------------------
